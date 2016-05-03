@@ -53,8 +53,8 @@ CalculateMarkovTrace <- function(M, p0, n.cycles){
   
   # Run Markov model for n.cycles-1
   for (t in 2:n.cycles){
-    trace[t, ]   <- trace[t-1, ] %*% M[, , t]
-    trans[, , t] <- trace[t-1, ] * M[, , t]
+    trace[t, ]   <- trace[t-1, ] %*% M[, , t-1]
+    trans[, , t] <- trace[t-1, ] * M[, , t-1]
   }
   # Return trace and trans
   return(list(trace = trace,  
