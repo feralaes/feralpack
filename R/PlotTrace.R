@@ -1,4 +1,4 @@
-#' A function to plot trace outcome from a Markov or Microsimulation 
+#' A plot function 
 #'
 #' This function generates a graph from the Markov or Micro Trace 
 #' The graph shows distribution of the cohort (of inidvidual subjects) over the different health states per cycle.
@@ -7,7 +7,7 @@
 #' @param title Title of the plot, e.g. "Markov Trace" or "Microsimulation Trace" 
 #' @param txtsize Text size for plot, default = 12
 #' @keywords Markov; plot; graph
-#' @return plot_trace ggplot of the Markov trace  
+#' @return plot_trace ggplot of the trace from the Markov or Micro-simulation
 #' PlotTrace()
 
 
