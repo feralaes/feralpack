@@ -1,9 +1,9 @@
 #' CalculateMicroTrace
 #'
 #' This function computes the microsimulation trace and transition array for a given matrix with individual history
-#' @param m.Microsim A microsimulation matrix showing what happens to each individual at each cycle
-#' @param state_names Names of the health states
-#' @param p.0 Initial state vector
+#' @param m.Microsim A microsimulation matrix (n.i x n.t) showing what happens to each individual at each cycle
+#' @param states Names of the health states
+#' @param v.Init Initial state vector (1 x n.s)
 #' @keywords Microsimulation
 #' @return trace A(n.t x n.s) matrix with microsimulation trace
 #' @return trans A (n.s x n.s x n.t) array with transitions over time
@@ -12,29 +12,29 @@
 #' CalculateMircoTrace()
 #'
 
-CalculateMicroTrace <- function (m.Microsim, state_names, p.0) {
+CalculateMicroTrace <- function (m.Microsim, states, v.Init) {
 
   ### Create a trace from the individual trajectories
   trace <- t(apply(m.Microsim, 2,
-                   function(x) table(factor(x, levels = states, ordered = TRUE))))
-  trace <-  trace / n.i   # Creat a distribution trace
+    function(x) table(factor(x, levels = seq(1, length(states), 1), ordered = TRUE))))
+  trace <-  trace / n.i   # Create a distribution trace
   # Name the rows and columns of the matrix
-  colnames(trace) <- state_names
-  rownames(trace) <- cycle_names
+  colnames(trace) <- states
+  rownames(trace) <- cycles
 
   ### Create a transition matrix per individual
   # The results of the MicroSim function are used for that
   n.t    <- ncol(m.Microsim)
   n.i    <- nrow(m.Microsim)
-  n.s    <- length(state_names)
+  n.s    <- length(states)
 
   # Initialize trans array with four dimensions
   trans_ind <- array(0,
-                     dim = c(n.s, n.s, n.t, n.i),
-                     dimnames = list(state_names,  state_names, cycle_names, ind_names))
+    dim = c(n.s, n.s, n.t, n.i),
+    dimnames = list(states,  states, cycles, ind))
 
   # First row of first stach of trans array is equal to the initial state vector
-  trans_ind[1, , 1, ] <- p.0
+  trans_ind[1, , 1, ] <- v.Init
 
   # Create a loop for all individuals
   for (i in 1:n.i) {
@@ -50,13 +50,13 @@ CalculateMicroTrace <- function (m.Microsim, state_names, p.0) {
 
   # Create a summary transition array of all individuals
   trans <-  array(0,
-                  dim = c(n.s, n.s, n.t),
-                  dimnames = list(state_names,  state_names, cycle_names))
+    dim = c(n.s, n.s, n.t),
+    dimnames = list(states,  states, cycles))
 
   # Sum the data for all cycles
   trans_sum_ind <-  array(0,
-                          dim = c(n.s, n.s, n.i),
-                          dimnames = list(state_names,  state_names, ind_names))
+    dim = c(n.s, n.s, n.i),
+    dimnames = list(states,  states, ind))
   for (s in seq(n.s)) {
     for (r in seq(n.s)) {
       for (t in seq(n.t)) {

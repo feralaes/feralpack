@@ -5,7 +5,7 @@
 #' @param cum A matrix with the cummulative time being sick or sicker
 #' @param rwd List of matrices with state rewards (diagonal) and transition rewards (off-diagonal)
 #' @param r Discount factor; default = 0.
-#' @param half If TRUE apply Half cycle correction
+#' @param half If TRUE apply half cycle correction
 #' @keywords Microsimulation costs outcomes rewards qaly
 #' @return exp_value_ind Expected value per individual for the different rewards in the list
 #' @return mean Mean expected value for the different rewards in the list
@@ -28,12 +28,12 @@ ExpectedValueMicroTimeDepReward <- function(trans, cum,  rwd, r = 0, half = TRUE
   # Create matrices to store the data
   exp_value_ind <- matrix(0, nrow = n.i, ncol = n.Lists)
   colnames(exp_value_ind) <- names(rwd)
-  trans_rwd     <- array (0, dim = c(n.s, n.s, n.i, n.Lists))
-  trans_rwd2    <- array(0, dim=c(n.s, n.s, n.t, n.i))
-  trans_rwd3    <- array(0, dim=c(n.s, n.s, n.i))
+  trans_rwd     <- array(0, dim = c(n.s, n.s, n.i, n.Lists))
+  trans_rwd2    <- array(0, dim = c(n.s, n.s, n.t, n.i))
+  trans_rwd3    <- array(0, dim = c(n.s, n.s, n.i))
 
   # Apply half cycle correction
-  if (half) {
+  if (half == TRUE) {
     trans[, , 1, ]   <- trans[, , 1, ] * 0.5
     trans[, , n.t, ] <- trans[, , n.t, ] * 0.5
   }
@@ -41,7 +41,7 @@ ExpectedValueMicroTimeDepReward <- function(trans, cum,  rwd, r = 0, half = TRUE
   # Discounting the values
   # First create an array to store the discounted values
   trans_disc <- array (0, dim = c(n.s, n.s, n.t, n.i),
-    dimnames = list(state_names,  state_names, cycle_names, ind_names))
+    dimnames = list(states, states, cycles, ind))
 
   # Apply the discounting via multiplication
   trans_disc <- trans * disc
@@ -49,7 +49,7 @@ ExpectedValueMicroTimeDepReward <- function(trans, cum,  rwd, r = 0, half = TRUE
   # Create an array without the cycle dimension
   # This is the reward transition array of each individuals for the complete simulation
   trans_disc2 <- array (0, dim = c(n.s, n.s, n.i),
-    dimnames = list(state_names,  state_names, ind_names))
+    dimnames = list(states,  states, ind))
 
   # Sum the trans_disc array over the n.t
   for (i in 1:n.i) {
@@ -72,7 +72,7 @@ ExpectedValueMicroTimeDepReward <- function(trans, cum,  rwd, r = 0, half = TRUE
         0, 0.03 * cum[i, t], 0.03 * cum[i, t], 0),
         nrow = n.s, ncol = n.s, byrow = TRUE)
 
-      trans_rwd2[, , t , i] <- (trans_disc[ , , t, i] * (rwd$QALY_treatment - m.h))
+      trans_rwd2[, , t , i] <- (trans_disc[ , , t, i] * (rwd[[4]] - m.h))
     }
 
     for (s in 1:n.s){
@@ -87,4 +87,3 @@ ExpectedValueMicroTimeDepReward <- function(trans, cum,  rwd, r = 0, half = TRUE
   results <- list(ind = exp_value_ind, mean = mean)
   return(results)
 }
-

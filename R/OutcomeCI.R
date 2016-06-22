@@ -1,4 +1,4 @@
-#' Outcome uncertainty
+#' Outcome uncertainty function
 #'
 #' This function created 95% confidence intervals around the outcome values
 #' @param outcomes Vector with the different rewards
@@ -6,7 +6,6 @@
 #' @return table with the mean outcome values and the upper and lower value of the 95% confidence interval
 #' CEA()
 #'
-
 
 OutcomeCI <- function(outcomes){
   # Calculate standard deviation of the mean outcomes

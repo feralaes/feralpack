@@ -4,14 +4,14 @@
 \alias{CalculateMicroTrace}
 \title{CalculateMicroTrace}
 \usage{
-CalculateMicroTrace(m.Microsim, state_names, p.0)
+CalculateMicroTrace(m.Microsim, states, v.Init)
 }
 \arguments{
 \item{m.Microsim}{A microsimulation matrix showing what happens to each individual at each cycle}
 
-\item{state_names}{Names of the health states}
+\item{v.Init}{Initial state vector}
 
-\item{p.0}{Initial state vector}
+\item{state_names}{Names of the health states}
 }
 \value{
 trace A(n.t x n.s) matrix with microsimulation trace
