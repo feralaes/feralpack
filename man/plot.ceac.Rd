@@ -30,7 +30,7 @@ Plots the CEAC as a \code{ggplot2} object calculated with \code{\link{ceac}}.
 \code{ceac} computes the probability of each of the strategies being 
 cost-effective at each \code{wtp} value.
 }
+
 \keyword{acceptability}
 \keyword{cost-effectiveness}
 \keyword{curves}
-

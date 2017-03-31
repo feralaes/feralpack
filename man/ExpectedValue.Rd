@@ -22,4 +22,3 @@ exp.value Expected value
 Computes the expected value from a Markov transition array
 }
 \keyword{Markov}
-

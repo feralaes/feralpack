@@ -23,4 +23,3 @@ CalculateMarkovTrace()
 This function computes the Markov trace and transition array for a given transition Matrix
 }
 \keyword{Markov}
-

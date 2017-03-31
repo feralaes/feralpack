@@ -36,10 +36,10 @@ sensitivity analysis (PSA) dataset.
 \code{mnl} computes the probability of each of the strategies being 
 cost-effective at over different values of the parameter of interest.
 }
+
 \keyword{analysis;}
 \keyword{decision}
 \keyword{logistic}
 \keyword{metamodel}
 \keyword{multinomial}
 \keyword{sensitivity}
-

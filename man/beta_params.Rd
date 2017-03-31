@@ -29,9 +29,9 @@ Based on methods of moments. If \eqn{\mu} is the mean and
 and
 \deqn{\beta = \alpha (\frac{1}{\mu} -1)}
 }
+
 \keyword{beta}
 \keyword{distribution;}
 \keyword{methods}
 \keyword{moments}
 \keyword{of}
-

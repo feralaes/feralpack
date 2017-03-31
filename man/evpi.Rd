@@ -25,6 +25,7 @@ evpi A data frame with the EVPI at each WTP threshold.
 \code{evpi} calculates the value of eliminating all the uncertainty of a 
 cost-effectiveness analysis at each \code{wtp} threshold.
 }
+
 \keyword{benefit}
 \keyword{expected}
 \keyword{information;}
@@ -33,4 +34,3 @@ cost-effectiveness analysis at each \code{wtp} threshold.
 \keyword{of}
 \keyword{perfect}
 \keyword{value}
-

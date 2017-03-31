@@ -29,4 +29,3 @@ Plots the EVPI as a \code{ggplot2} object calculated with \code{\link{evpi}}.
 \keyword{of}
 \keyword{perfect}
 \keyword{value}
-
