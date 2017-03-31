@@ -93,5 +93,7 @@ ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = 
   )
   # Return a data frame of class ceac
   class(df.ceac) <- "ceaf"
-  return(df.ceac)
+  if(ceaf.out){
+    return(df.ceac)
+  }
 }
