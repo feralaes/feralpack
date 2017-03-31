@@ -4,7 +4,7 @@
 \alias{plot.ceac}
 \title{Plot of Cost-Effectiveness Acceptability Curves (CEAC)}
 \usage{
-\method{plot}{ceac}(ceac, title = "Cost-Effectiveness Acceptability Curves",
+plot.ceac(ceac, title = "Cost-Effectiveness Acceptability Curves",
   txtsize = 12, currency = "$")
 }
 \arguments{
