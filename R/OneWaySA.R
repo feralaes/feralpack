@@ -80,14 +80,7 @@ OneWaySA <- function(strategies, y, x,
     scale_colour_hue("Strategy", l=50) +
     scale_x_continuous(breaks=number_ticks(6)) + #Adjust for number of ticks in x axis
     scale_y_continuous(breaks=number_ticks(6)) +
-    theme_bw() +
-    theme(legend.position="bottom",legend.title=element_text(size = txtsize),
-          legend.key = element_rect(colour = "black"),
-          legend.text = element_text(size = txtsize),
-          title = element_text(face="bold", size=txtsize+2),
-          axis.title.x = element_text(face="bold", size=txtsize),
-          axis.title.y = element_text(face="bold", size=txtsize),
-          axis.text.y = element_text(size=txtsize),
-          axis.text.x = element_text(size=txtsize))
+    theme_bw(base_size = 14) +
+    theme(legend.position = "bottom")
   return(owsa)
 }
