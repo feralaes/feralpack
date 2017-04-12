@@ -20,6 +20,8 @@
 #' @return ceaf A melted data frame with each strategy's probability of being 
 #' cost-effective at each WTP threshold.
 #' @examples 
+#' # Load PSA dataset
+#' load(psa)
 #' # Name of strategies
 #' strategies <- c("Chemo", "Radio", "Surgery")
 #' # Vector of WTP thresholds
