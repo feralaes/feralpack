@@ -4,7 +4,7 @@
 \alias{plot.evpi}
 \title{Plot of Expected Value of Perfect Information (EVPI)}
 \usage{
-plot.evpi(evpi, title = "Expected Value of Perfect Information",
+\method{plot}{evpi}(evpi, title = "Expected Value of Perfect Information",
   txtsize = 12, currency = "$")
 }
 \arguments{
