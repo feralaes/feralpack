@@ -38,6 +38,8 @@ cost-effective at each \code{v.wtp} threshold.
 }
 
 \examples{
+# Load PSA dataset
+load(psa)
 # Name of strategies
 strategies <- c("Chemo", "Radio", "Surgery")
 # Vector of WTP thresholds
