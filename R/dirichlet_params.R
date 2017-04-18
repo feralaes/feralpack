@@ -13,8 +13,7 @@
 #' the second moment \eqn{X_2} is defined by \eqn{\sigma^2 + \mu^2}. Using the
 #' mean and the second moment, the \eqn{J} alpha paramters are computed as follows
 #' \deqn{\alpha_i = \frac{(\mu_1 - X_2_1)\mu_i}{X_2_1 - \mu_i^2}}
-#' for \eqn{i = 1, \ldots, J-1}
-#' and
+#' for \eqn{i = 1, \ldots, J-1}, and
 #' \deqn{\alpha_J = \frac{(\mu_1 - X_2_1)(1-\sum_{i=1}^{J-1}\mu_i)}{X_2_1 - \mu_i^2}}
 #' 
 #' @section References:
@@ -26,6 +25,7 @@
 #' p.mean <- c(0.5, 0.15, 0.35)
 #' p.se   <- c(0.035, 0.025, 0.034)
 #' dirichlet_params(p.mean, p.se)
+#' # True values: 100, 30, 70
 #' }
 dirichlet_params <- function(p.mean, sigma){
   n.params <- length(p.mean)
