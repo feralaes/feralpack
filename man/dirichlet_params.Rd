@@ -25,10 +25,10 @@ deviation \eqn{\sigma} of the random variables of interest.
 Based on methods of moments. If \eqn{\mu} is a vector of means and 
 \eqn{\sigma} is a vector of standard deviations of the random variable, then
 the second moment \eqn{X_2} is defined by \eqn{\sigma^2 + \mu^2}. Using the
-mean and the second moment, the \eqn{J} alpha paramters are computed as follows
-\deqn{\alpha_i = \frac{(\mu_1 - X_2_1)\mu_i}{X_2_1 - \mu_i^2}}
+mean and the second moment, the \eqn{J} alpha parameters are computed as follows
+\deqn{\alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2}}
 for \eqn{i = 1, \ldots, J-1}, and
-\deqn{\alpha_J = \frac{(\mu_1 - X_2_1)(1-\sum_{i=1}^{J-1}\mu_i)}{X_2_1 - \mu_i^2}}
+\deqn{\alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2}}
 }
 
 \section{References}{
