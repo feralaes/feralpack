@@ -17,8 +17,12 @@
 #' \deqn{\alpha_J = \frac{(\mu_1 - X_2_1)(1-\sum_{i=1}^{J-1}\mu_i)}{X_2_1 - \mu_i^2}}
 #' 
 #' @section References:
-#' Fielitz BD, Myers BL. Estimation of parameters in the beta distribution. 
-#' Decision Sciences. 1975;6(1):1–13. 
+#' \enumerate{
+#' \item Fielitz BD, Myers BL. Estimation of parameters in the beta distribution. 
+#' Dec Sci. 1975;6(1):1–13. 
+#' \item Narayanan A. A note on parameter estimation in the multivariate beta 
+#' distribution. Comput Math with Appl. 1992;24(10):11–7. 
+#' }
 #' @return alpha Alpha parameters of dirichlet distribution
 #' @examples
 #' \dontrun{

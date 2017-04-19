@@ -33,8 +33,12 @@ for \eqn{i = 1, \ldots, J-1}, and
 
 \section{References}{
 
-Fielitz BD, Myers BL. Estimation of parameters in the beta distribution. 
-Decision Sciences. 1975;6(1):1–13.
+\enumerate{
+\item Fielitz BD, Myers BL. Estimation of parameters in the beta distribution. 
+Dec Sci. 1975;6(1):1–13. 
+\item Narayanan A. A note on parameter estimation in the multivariate beta 
+distribution. Comput Math with Appl. 1992;24(10):11–7. 
+}
 }
 
 \examples{
