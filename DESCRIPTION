@@ -17,5 +17,9 @@ Imports:
     matrixStats,
     VGAM
 Suggests:
-    testthat
+    BiocStyle,
+    testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
