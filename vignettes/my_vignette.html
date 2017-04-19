@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fernando Alarid Escudero" />
 
-<meta name="date" content="2017-04-18" />
+<meta name="date" content="2017-04-19" />
 
 <title>Vignette for dampack package</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Vignette for <code>dampack</code> package</h1>
 <h4 class="author"><em>Fernando Alarid Escudero</em></h4>
-<h4 class="date"><em>2017-04-18</em></h4>
+<h4 class="date"><em>2017-04-19</em></h4>
 
 
 
@@ -82,6 +82,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <div id="estimation-of-dirichlet-parameters-uisng-mom" class="section level2">
 <h2>Estimation of Dirichlet parameters uisng MoM</h2>
+<p>This function returns the <span class="math inline">\(\alpha\)</span> parameteres of a dirichlet distribution following the moethods of moments (MoM) proposed by <span class="citation">Fielitz and Myers (<a href="#ref-Fielitz1975">1975</a>)</span> and <span class="citation">Narayanan (<a href="#ref-Narayanan1992">1992</a>)</span>.</p>
 <p>If <span class="math inline">\(\mu\)</span> is a vector of means and <span class="math inline">\(\sigma\)</span> is a vector of standard deviations of the random variable, then the second moment <span class="math inline">\(X_2\)</span> is defined by <span class="math inline">\(\sigma^2 + \mu^2\)</span>. Using the mean and the second moment, the <span class="math inline">\(J\)</span> alpha parameters are computed as follows <span class="math display">\[ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} \]</span> for <span class="math inline">\(i = 1, \ldots, J-1\)</span>, and</p>
 <p><span class="math display">\[ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} \]</span></p>
 </div>
@@ -275,6 +276,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <blockquote>
 <p>“He who gives up [code] safety for [code] speed deserves neither.” (<a href="https://twitter.com/hadleywickham/status/504368538874703872">via</a>)</p>
 </blockquote>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-Fielitz1975">
+<p>Fielitz, Bruce D., and Buddy L. Myers. 1975. “Estimation of parameters in the beta distribution.” <em>Decision Sciences</em> 6 (1): 1–13.</p>
+</div>
+<div id="ref-Narayanan1992">
+<p>Narayanan, A. 1992. “A note on parameter estimation in the multivariate beta distribution.” <em>Computers and Mathematics with Applications</em> 24 (10): 11–17. doi:<a href="https://doi.org/10.1016/0898-1221(92)90016-B">10.1016/0898-1221(92)90016-B</a>.</p>
+</div>
+</div>
 </div>
 <div class="footnotes">
 <hr />

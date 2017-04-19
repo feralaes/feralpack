@@ -10,6 +10,9 @@ vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: /Users/FAE/Dropbox/BibTeX/Statistics.bib
+link-citations: true
+#csl: sage-vancouver.csl #elsevier-vancouver.csl
 ---
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
@@ -19,6 +22,8 @@ Vignettes are long form documentation commonly included in packages. Because the
 - Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
 ## Estimation of Dirichlet parameters uisng MoM
+This function returns the $\alpha$ parameteres of a dirichlet distribution following the moethods of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
+
 If $\mu$ is a vector of means and $\sigma$ is a vector of standard deviations of the random variable, then the second moment $X_2$ is defined by $\sigma^2 + \mu^2$. Using the mean and the second moment, the $J$ alpha parameters are computed as follows
 $$ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} $$
 for $i = 1, \ldots, J-1$, and
@@ -67,3 +72,5 @@ Also a quote using `>`:
 
 > "He who gives up [code] safety for [code] speed deserves neither."
 ([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+# References
