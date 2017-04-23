@@ -22,7 +22,7 @@ Vignettes are long form documentation commonly included in packages. Because the
 - Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
 ## Estimation of Dirichlet parameters uisng MoM
-This function returns the $\alpha$ parameteres of a dirichlet distribution following the moethods of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
+This function returns the $\alpha$ parameteres of a dirichlet distribution following the method of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
 
 If $\mu$ is a vector of means and $\sigma$ is a vector of standard deviations of the random variable, then the second moment $X_2$ is defined by $\sigma^2 + \mu^2$. Using the mean and the second moment, the $J$ alpha parameters are computed as follows
 $$ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} $$
@@ -30,6 +30,15 @@ for $i = 1, \ldots, J-1$, and
 
 $$ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} $$
 
+## Estimation of Log-normal parameters uisng MoM
+This function returns the location, $\mu$, and scale, $\sigma$, parameteres of a log-normal distribution from the mean and variance of a random variable following the method of moments (MoM).
+
+Given the non-logarithmized mean and variance $m$ and $v$ of the random variable, respectively, the location, $\mu$, and scale, $\sigma$, of a log-normal distribution are given by the following equations
+
+$$ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} $$
+and
+
+$$ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} $$
 
 ## Vignette Info
 

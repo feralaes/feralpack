@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fernando Alarid Escudero" />
 
-<meta name="date" content="2017-04-19" />
+<meta name="date" content="2017-04-23" />
 
 <title>Vignette for dampack package</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Vignette for <code>dampack</code> package</h1>
 <h4 class="author"><em>Fernando Alarid Escudero</em></h4>
-<h4 class="date"><em>2017-04-19</em></h4>
+<h4 class="date"><em>2017-04-23</em></h4>
 
 
 
@@ -82,9 +82,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <div id="estimation-of-dirichlet-parameters-uisng-mom" class="section level2">
 <h2>Estimation of Dirichlet parameters uisng MoM</h2>
-<p>This function returns the <span class="math inline">\(\alpha\)</span> parameteres of a dirichlet distribution following the moethods of moments (MoM) proposed by <span class="citation">Fielitz and Myers (<a href="#ref-Fielitz1975">1975</a>)</span> and <span class="citation">Narayanan (<a href="#ref-Narayanan1992">1992</a>)</span>.</p>
+<p>This function returns the <span class="math inline">\(\alpha\)</span> parameteres of a dirichlet distribution following the method of moments (MoM) proposed by <span class="citation">Fielitz and Myers (<a href="#ref-Fielitz1975">1975</a>)</span> and <span class="citation">Narayanan (<a href="#ref-Narayanan1992">1992</a>)</span>.</p>
 <p>If <span class="math inline">\(\mu\)</span> is a vector of means and <span class="math inline">\(\sigma\)</span> is a vector of standard deviations of the random variable, then the second moment <span class="math inline">\(X_2\)</span> is defined by <span class="math inline">\(\sigma^2 + \mu^2\)</span>. Using the mean and the second moment, the <span class="math inline">\(J\)</span> alpha parameters are computed as follows <span class="math display">\[ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} \]</span> for <span class="math inline">\(i = 1, \ldots, J-1\)</span>, and</p>
 <p><span class="math display">\[ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} \]</span></p>
+</div>
+<div id="estimation-of-log-normal-parameters-uisng-mom" class="section level2">
+<h2>Estimation of Log-normal parameters uisng MoM</h2>
+<p>This function returns the location, <span class="math inline">\(\mu\)</span>, and scale, <span class="math inline">\(\sigma\)</span>, parameteres of a log-normal distribution from the mean and variance of a random variable following the method of moments (MoM).</p>
+<p>Given the non-logarithmized mean and variance <span class="math inline">\(m\)</span> and <span class="math inline">\(v\)</span> of the random variable, respectively, the location, <span class="math inline">\(\mu\)</span>, and scale, <span class="math inline">\(\sigma\)</span>, of a log-normal distribution are given by the following equations</p>
+<p><span class="math display">\[ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} \]</span> and</p>
+<p><span class="math display">\[ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} \]</span></p>
 </div>
 <div id="vignette-info" class="section level2">
 <h2>Vignette Info</h2>
