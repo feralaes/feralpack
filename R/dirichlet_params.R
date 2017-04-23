@@ -1,22 +1,22 @@
 #' Calculate alpha parameters of Dirichlet distribution.
 #' 
-#' Function to calculate the alpha parameters of the Dirichlet distribution
-#' based on the method of moments using the mean \eqn{\mu} and standard 
+#' Function to calculate the \eqn{\alpha} parameters of the Dirichlet distribution
+#' based on the method of moments (MoM) using the mean \eqn{\mu} and standard
 #' deviation \eqn{\sigma} of the random variables of interest.
 #' @param p.mean Vector of means of the random variables.
 #' @param sigma Vector of standard deviation of the random variables 
 #' (i.e., standar error).
-#' @keywords dirichlet distribution; methods of moments
+#' @keywords dirichlet distribution; method of moments
 #' @section Details:
 #' Based on methods of moments. If \eqn{\mu} is a vector of means and 
-#' \eqn{\sigma} is a vector of standard deviations of the random variable, then
+#' \eqn{\sigma} is a vector of standard deviations of the random variables, then
 #' the second moment \eqn{X_2} is defined by \eqn{\sigma^2 + \mu^2}. Using the
 #' mean and the second moment, the \eqn{J} alpha parameters are computed as follows
 #' \deqn{\alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2}}
 #' for \eqn{i = 1, \ldots, J-1}, and
 #' \deqn{\alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2}}
 #' 
-#' @section References:
+#' @references
 #' \enumerate{
 #' \item Fielitz BD, Myers BL. Estimation of parameters in the beta distribution. 
 #' Dec Sci. 1975;6(1):1–13. 
