@@ -3,8 +3,8 @@ Title: Package with useful decision-analytic modeling tools
 Version: 0.0.0.9000
 Authors@R: c(person("Fernando", "Alarid-Escudero", email = "alari006@umn.edu", role = c("aut", "cre")),
              person("Hawre", "Jalal", email = "hjalal@pitt.edu", role = "ctb"))
-Description: A pilot package to try, test, improve and continously develop
-    functions to create and analyze decisio-analytic models (DAM).
+Description: A pilot package to try, test, improve and continuously develop
+    functions to create and analyze decision-analytic models (DAM).
 Depends:
     R (>= 3.2.0)
 License: file LICENSE
