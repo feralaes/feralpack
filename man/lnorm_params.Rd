@@ -19,7 +19,8 @@ sigma Scale parameter of log-normal distribution
 \description{
 Function to calculate the location, \eqn{\mu}, and scale, \eqn{\sigma}, 
 parameteres of a log-normal distribution based on the method of moments (MoM) 
-using the mean \eqn{m} and variance \eqn{v} of the random variable of interest.
+using the mean \eqn{m} and variance \eqn{v} of the non-logarithmized random 
+variable of interest.
 }
 \section{Details}{
 
@@ -42,6 +43,8 @@ lnorm_params(m, v)
 }
 \references{
 \enumerate{
+\item Ginos BF. Parameter Estimation for the Lognormal Distribution. 
+Brigham Young University; 2009.
 \item Log-normal distribution. (2017, April 20). In Wikipedia, The Free 
 Encyclopedia. Retrieved 16:47, April 23, 2017, 
 from https://en.wikipedia.org/w/index.php?title=Log-normal_distribution&oldid=776357974
