@@ -20,7 +20,7 @@ syndX
 }
 \description{
 Probabilistic sensitivity analysis (PSA) dataset from the cost-effectiveness analysis
- (CEA) example of Syndrome X from Jalal and Alarid-Escudero (2017) EVSI paper
+ (CEA) example of Syndrome X from Jalal H and Alarid-Escudero F (2017) EVSI paper
 }
 \references{
 \enumerate{
