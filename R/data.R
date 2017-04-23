@@ -1,7 +1,7 @@
 #' Probabilistic Sensitivity Analysis (PSA) dataset 
 #'
 #' Probabilistic sensitivity analysis (PSA) dataset from the cost-effectiveness 
-#'  (CEA) example of Jalal et al. (2013) linear regression metamodeling paper
+#' analysis (CEA) example of Jalal et al. (2013) linear regression metamodeling paper
 #' @format A data frame with 10000 samples of the effectiveness and costs of three strategies 
 #'  and five input parameters: 
 #' \describe{

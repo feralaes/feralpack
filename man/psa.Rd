@@ -28,7 +28,7 @@ psa
 }
 \description{
 Probabilistic sensitivity analysis (PSA) dataset from the cost-effectiveness 
- (CEA) example of Jalal et al. (2013) linear regression metamodeling paper
+analysis (CEA) example of Jalal et al. (2013) linear regression metamodeling paper
 }
 \references{
 1. Jalal H, Dowd B, Sainfort F, Kuntz KM. Linear regression 
