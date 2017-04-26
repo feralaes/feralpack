@@ -14,8 +14,6 @@
 #'  \item{ProbFailingB}{Probability of failing treatment with strategy B} 
 #' }
 #' @references 
-#' \enumerate{
-#' \item Jalal H, Alarid-Escudero F. A General Gaussian Approximation Approach 
+#' Jalal H, Alarid-Escudero F. A General Gaussian Approximation Approach 
 #' for Value of Information Analysis. Under review. 2017. 
-#' }
 "syndX"

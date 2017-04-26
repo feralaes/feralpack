@@ -23,9 +23,7 @@ Probabilistic sensitivity analysis (PSA) dataset from the cost-effectiveness ana
  (CEA) example of Syndrome X from Jalal H and Alarid-Escudero F (2017) EVSI paper
 }
 \references{
-\enumerate{
-\item Jalal H, Alarid-Escudero F. A General Gaussian Approximation Approach 
-for Value of Information Analysis. Under review. 2017. 
-}
+Jalal H, Alarid-Escudero F. A General Gaussian Approximation Approach 
+for Value of Information Analysis. Under review. 2017.
 }
 \keyword{datasets}
