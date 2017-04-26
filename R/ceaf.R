@@ -21,7 +21,7 @@
 #' cost-effective at each WTP threshold.
 #' @examples 
 #' # Load PSA dataset
-#' load(psa)
+#' data(psa)
 #' # Name of strategies
 #' strategies <- c("Chemo", "Radio", "Surgery")
 #' # Vector of WTP thresholds
