@@ -3,8 +3,8 @@ title: "Vignette for `dampack` package"
 author: "Fernando Alarid Escudero"
 date: "`r Sys.Date()`"
 output: 
-  - rmarkdown::html_vignette
-  #- pdf_document
+  # - rmarkdown::html_vignette
+  - pdf_document
   #BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -15,13 +15,7 @@ link-citations: true
 #csl: sage-vancouver.csl #elsevier-vancouver.csl
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Estimation of Dirichlet parameters uisng MoM
+## Estimation of Dirichlet parameters using MoM
 This function returns the $\alpha$ parameteres of a dirichlet distribution following the method of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
 
 If $\mu$ is a vector of means and $\sigma$ is a vector of standard deviations of the random variable, then the second moment $X_2$ is defined by $\sigma^2 + \mu^2$. Using the mean and the second moment, the $J$ alpha parameters are computed as follows
@@ -39,6 +33,21 @@ $$ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} $$
 and
 
 $$ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} $$
+
+## EVPPI using linear regression metamodeling
+The expected value of partial pefect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, $\theta_I$ of a cost-effectiveness analysis (CEA) of $D$ different strategies with parameters $\theta = \{ \theta_I, \theta_C\}$, where $\theta_C$ is the set of complimenatry parameters of the CEA. The function `evppi_lrmm` computes the EVPPI of $\theta_I$ from a matrix of net monetary benefits $B$ of the CEA. Each column of $B$ corresponds to the net benefit $B_d$ of strategy $d$. The function `evppi_lrmm` computes the EVPPI using a linear regression metamodel [@Strong2014b; @Jalal2017] approach following these steps:
+
+1. Determine the optimal strategy $d^*$ from the expected net benefits $\bar{B}$
+$$ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} $$
+1. Compute the opportunity loss for each $d$ strategy, $L_d$
+$$ L_d = B_d - B_{d^*} $$
+1. Estimate a linear metamodel for the opportunity loss of each $d$ strategy, $L_d$, by regressing them on the spline basis functions of $\theta_I$, $f(\theta_I)$
+$$ L_d = \beta_0 + f(\theta_I) + \epsilon,$$
+where $\epsilon$ is the residual term that captures the complementary parameters $\theta_C$ and the difference between the original simulation model and the metamodel.
+1. Compute the EVPPI of $\theta_I$ using the estimated losses for each $d$ strategy, $\hat{L}_d$ from the linear regression metamodel and applying the following equation:
+$$ \text{EVPPI}_{\theta_I} = \frac{1}{K}\sum_{i=1}^{K}\max_d\left(\hat{L}_d \right)$$
+
+The spline model in step 3 is fitted using the `mgcv` package.
 
 ## Vignette Info
 

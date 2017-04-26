@@ -12,7 +12,7 @@
 
 <meta name="author" content="Fernando Alarid Escudero" />
 
-<meta name="date" content="2017-04-23" />
+<meta name="date" content="2017-04-26" />
 
 <title>Vignette for dampack package</title>
 
@@ -70,18 +70,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Vignette for <code>dampack</code> package</h1>
 <h4 class="author"><em>Fernando Alarid Escudero</em></h4>
-<h4 class="date"><em>2017-04-23</em></h4>
+<h4 class="date"><em>2017-04-26</em></h4>
 
 
 
-<p>Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The <code>html_vignette</code> output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The <code>html_vignette</code> format:</p>
-<ul>
-<li>Never uses retina figures</li>
-<li>Has a smaller default figure size</li>
-<li>Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style</li>
-</ul>
-<div id="estimation-of-dirichlet-parameters-uisng-mom" class="section level2">
-<h2>Estimation of Dirichlet parameters uisng MoM</h2>
+<div id="estimation-of-dirichlet-parameters-using-mom" class="section level2">
+<h2>Estimation of Dirichlet parameters using MoM</h2>
 <p>This function returns the <span class="math inline">\(\alpha\)</span> parameteres of a dirichlet distribution following the method of moments (MoM) proposed by <span class="citation">Fielitz and Myers (<a href="#ref-Fielitz1975">1975</a>)</span> and <span class="citation">Narayanan (<a href="#ref-Narayanan1992">1992</a>)</span>.</p>
 <p>If <span class="math inline">\(\mu\)</span> is a vector of means and <span class="math inline">\(\sigma\)</span> is a vector of standard deviations of the random variable, then the second moment <span class="math inline">\(X_2\)</span> is defined by <span class="math inline">\(\sigma^2 + \mu^2\)</span>. Using the mean and the second moment, the <span class="math inline">\(J\)</span> alpha parameters are computed as follows <span class="math display">\[ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} \]</span> for <span class="math inline">\(i = 1, \ldots, J-1\)</span>, and</p>
 <p><span class="math display">\[ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} \]</span></p>
@@ -92,6 +86,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Given the non-logarithmized mean and variance <span class="math inline">\(m\)</span> and <span class="math inline">\(v\)</span> of the random variable, respectively, the location, <span class="math inline">\(\mu\)</span>, and scale, <span class="math inline">\(\sigma\)</span>, of a log-normal distribution are given by the following equations</p>
 <p><span class="math display">\[ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} \]</span> and</p>
 <p><span class="math display">\[ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} \]</span></p>
+</div>
+<div id="evppi-using-linear-regression-metamodeling" class="section level2">
+<h2>EVPPI using linear regression metamodeling</h2>
+<p>The expected value of partial pefect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, <span class="math inline">\(\theta_I\)</span> of a cost-effectiveness analysis (CEA) of <span class="math inline">\(D\)</span> different strategies with parameters <span class="math inline">\(\theta = \{ \theta_I, \theta_C\}\)</span>, where <span class="math inline">\(\theta_C\)</span> is the set of complimenatry parameters of the CEA. The function <code>evppi_lrmm</code> computes the EVPPI of <span class="math inline">\(\theta_I\)</span> from a matrix of net monetary benefits <span class="math inline">\(B\)</span> of the CEA. Each column of <span class="math inline">\(B\)</span> corresponds to the net benefit <span class="math inline">\(B_d\)</span> of strategy <span class="math inline">\(d\)</span>. The function <code>evppi_lrmm</code> computes the EVPPI using a linear regression metamodel approach following these steps:</p>
+<ol style="list-style-type: decimal">
+<li>Determine the optimal strategy <span class="math inline">\(d^*\)</span> from the expected net benefits <span class="math inline">\(\bar{B}\)</span> <span class="math display">\[ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} \]</span></li>
+<li>Compute the opportunity loss for each <span class="math inline">\(d\)</span> strategy, <span class="math inline">\(L_d\)</span> <span class="math display">\[ L_d = B_d - B_{d^*} \]</span></li>
+<li>Estimate a linear metamodel for the opportunity loss of each <span class="math inline">\(d\)</span> strategy, <span class="math inline">\(L_d\)</span>, by regressing them on the spline basis functions of <span class="math inline">\(\theta_I\)</span>, <span class="math inline">\(f(\theta_I)\)</span> <span class="math display">\[ L_d = \beta_0 + f(\theta_I) + \epsilon,\]</span> where <span class="math inline">\(\epsilon\)</span> is the residual term that captures the complementary parameters <span class="math inline">\(\theta_C\)</span> and the difference between the original simulation model and the metamodel.</li>
+<li>Compute the EVPPI of <span class="math inline">\(\theta_I\)</span> using the estimated losses for each <span class="math inline">\(d\)</span> strategy, <span class="math inline">\(\hat{L}_d\)</span> from the linear regression metamodel and applying the following equation: <span class="math display">\[ \text{EVPPI}_{\theta_I} = \frac{1}{K}\sum_{i=1}^{K}\max_d\left(\hat{L}_d \right)\]</span></li>
+</ol>
+<p>The spline model in step 3 is fitted using the <code>mgcv</code> package.</p>
 </div>
 <div id="vignette-info" class="section level2">
 <h2>Vignette Info</h2>
