@@ -15,7 +15,8 @@ Imports:
     grid,
     gridExtra,
     matrixStats,
-    VGAM
+    VGAM,
+    mgcv
 Suggests:
     BiocStyle,
     testthat,
