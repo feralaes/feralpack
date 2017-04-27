@@ -104,23 +104,19 @@ evppi_lrmm <- function(nmb = NULL, params = NULL, sel.params = 1, verbose = F){
     stop("Number of selected parameters exceeds the number of parameters on 'params' (the matrix or vector of parameters)")
   }
   
-  ## Print number of parameters included in EVPPI calculations
+  ### Print number of parameters included in EVPPI calculations
   if (verbose){print(paste("Estimating EVPPI of", n.sel.params, "parameters"))}
+  
+  ### Obtain necessary parameters
+  n.sim        <- nrow(nmb)
+  n.strategies <- ncol(nmb)
   
   ### Find optimal strategy (d*) based on the highest expected NMB
   d.star <- which.max(colMeans(nmb))
   d.star
   
   ### Estimate the Loss matrix
-  ## Obtain necessary parameters
-  n.sim        <- nrow(nmb)
-  n.strategies <- ncol(nmb)
-  ## Initialize loss matrix
-  Loss <- matrix(0, n.sim, n.strategies) 
-  ## Compute losses
-  for (s in 1:n.strategies){
-    Loss[, s] <- nmb[, s] - nmb[, d.star]
-  }
+  Loss <- nmb - nmb[, d.star]
   
   ### Initialize elements to store results
   ## List for LRM
