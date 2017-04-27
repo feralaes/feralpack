@@ -3,8 +3,8 @@ title: "Vignette for `dampack` package"
 author: "Fernando Alarid Escudero"
 date: "`r Sys.Date()`"
 output: 
-  # - rmarkdown::html_vignette
-  - pdf_document
+  - rmarkdown::html_vignette
+  # - pdf_document
   #BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Vignette Title}

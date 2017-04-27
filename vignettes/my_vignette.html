@@ -89,7 +89,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="evppi-using-linear-regression-metamodeling" class="section level2">
 <h2>EVPPI using linear regression metamodeling</h2>
-<p>The expected value of partial pefect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, <span class="math inline">\(\theta_I\)</span> of a cost-effectiveness analysis (CEA) of <span class="math inline">\(D\)</span> different strategies with parameters <span class="math inline">\(\theta = \{ \theta_I, \theta_C\}\)</span>, where <span class="math inline">\(\theta_C\)</span> is the set of complimenatry parameters of the CEA. The function <code>evppi_lrmm</code> computes the EVPPI of <span class="math inline">\(\theta_I\)</span> from a matrix of net monetary benefits <span class="math inline">\(B\)</span> of the CEA. Each column of <span class="math inline">\(B\)</span> corresponds to the net benefit <span class="math inline">\(B_d\)</span> of strategy <span class="math inline">\(d\)</span>. The function <code>evppi_lrmm</code> computes the EVPPI using a linear regression metamodel approach following these steps:</p>
+<p>The expected value of partial pefect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, <span class="math inline">\(\theta_I\)</span> of a cost-effectiveness analysis (CEA) of <span class="math inline">\(D\)</span> different strategies with parameters <span class="math inline">\(\theta = \{ \theta_I, \theta_C\}\)</span>, where <span class="math inline">\(\theta_C\)</span> is the set of complimenatry parameters of the CEA. The function <code>evppi_lrmm</code> computes the EVPPI of <span class="math inline">\(\theta_I\)</span> from a matrix of net monetary benefits <span class="math inline">\(B\)</span> of the CEA. Each column of <span class="math inline">\(B\)</span> corresponds to the net benefit <span class="math inline">\(B_d\)</span> of strategy <span class="math inline">\(d\)</span>. The function <code>evppi_lrmm</code> computes the EVPPI using a linear regression metamodel <span class="citation">(Strong, Oakley, and Brennan <a href="#ref-Strong2014b">2014</a>; Jalal and Alarid-Escudero <a href="#ref-Jalal2017">2017</a>)</span> approach following these steps:</p>
 <ol style="list-style-type: decimal">
 <li>Determine the optimal strategy <span class="math inline">\(d^*\)</span> from the expected net benefits <span class="math inline">\(\bar{B}\)</span> <span class="math display">\[ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} \]</span></li>
 <li>Compute the opportunity loss for each <span class="math inline">\(d\)</span> strategy, <span class="math inline">\(L_d\)</span> <span class="math display">\[ L_d = B_d - B_{d^*} \]</span></li>
@@ -295,8 +295,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="ref-Fielitz1975">
 <p>Fielitz, Bruce D., and Buddy L. Myers. 1975. “Estimation of parameters in the beta distribution.” <em>Decision Sciences</em> 6 (1): 1–13.</p>
 </div>
+<div id="ref-Jalal2017">
+<p>Jalal, Hawre, and Fernando Alarid-Escudero. 2017. “A General Gaussian Approximation Approach for Value of Information Analysis.”</p>
+</div>
 <div id="ref-Narayanan1992">
 <p>Narayanan, A. 1992. “A note on parameter estimation in the multivariate beta distribution.” <em>Computers and Mathematics with Applications</em> 24 (10): 11–17. doi:<a href="https://doi.org/10.1016/0898-1221(92)90016-B">10.1016/0898-1221(92)90016-B</a>.</p>
+</div>
+<div id="ref-Strong2014b">
+<p>Strong, M., J. E. Oakley, and A. Brennan. 2014. “Estimating Multiparameter Partial Expected Value of Perfect Information from a Probabilistic Sensitivity Analysis Sample: A Nonparametric Regression Approach.” <em>Medical Decision Making</em> 34 (3): 311–26. doi:<a href="https://doi.org/10.1177/0272989X13505910">10.1177/0272989X13505910</a>.</p>
 </div>
 </div>
 </div>
