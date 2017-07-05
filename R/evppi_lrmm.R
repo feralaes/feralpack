@@ -49,7 +49,7 @@
 #' @references 
 #' \enumerate{
 #' \item Jalal H, Alarid-Escudero F. A General Gaussian Approximation Approach 
-#' for Value of Information Analysis. Under review. 2017. 
+#' for Value of Information Analysis. Med Decis Making (in press). 2017. 
 #' \item Strong M, Oakley JE, Brennan A. Estimating Multiparameter Partial 
 #' Expected Value of Perfect Information from a Probabilistic Sensitivity 
 #' Analysis Sample: A Nonparametric Regression Approach. Med Decis Making. 
