@@ -14,6 +14,11 @@ CalculateMarkovTrace <- function(M, p0, n.cycles){
   n.states <- ncol(M)
   # Extract name of states
   state.names <- colnames(M)
+  # If no name of states, create default names
+  if(is.null(state.names)){
+    state.names <- paste("S", 1:n.states, sep = "_")
+  }
+  
   # Verify if M is 2D or 3D matrix
   n.dim <- length(dim(M))
   # If M is a 2D Matrix, convert to 3D by repeating it n.cycles times in a 3D array
@@ -29,8 +34,9 @@ CalculateMarkovTrace <- function(M, p0, n.cycles){
   valid <- apply(M, 3, function(x) sum(rowSums(x))==n.states)
   #print(sum(valid))
   #print(n.cycles)
-  if (sum(valid) != n.cycles){
-    print("Error: This is not a valid transition Matrix")
+  
+  if (!isTRUE(all.equal(as.numeric(sum(valid)), as.numeric(n.cycles)))) {
+    print("Error: This is not a valid transition Matrix") 
     stop()
   }
   
