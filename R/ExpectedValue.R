@@ -6,10 +6,11 @@
 #         (off-diagonal)
 #' @param r Discount factor in the scale of a cycle [0, 1]; default = 0
 #' @param half If TRUE apply Half cycle correction. Defaults to TRUE
+#' @param verbose If TRUE messages are printed. Defaults to FALSE
 #' @keywords Markov
 #' @return exp.value Expected value
 #'
-ExpectedValue <- function(trans, rwd, r = 0, half = TRUE){
+ExpectedValue <- function(trans, rwd, r = 0, half = TRUE, verbose = FALSE){
   # Extract name of states
   state.names <- colnames(rwd)
   # Number of states
@@ -26,9 +27,9 @@ ExpectedValue <- function(trans, rwd, r = 0, half = TRUE){
                  dim = c(n.states, n.states, n.cycles), 
                  dimnames = list(state.names, state.names, 
                                  paste("Cycle", 0:(n.cycles-1), sep = "")))
-    print("Reward matrix input by user is 2D, 3D stacking performed")
+    if(verbose) print("Reward matrix input by user is 2D, 3D stacking performed")
   } else {
-    print("Reward matrix input by user is 3D, no stacking perfomed")
+    if(verbose) print("Reward matrix input by user is 3D, no stacking perfomed")
   }
   
   # Discount vector
