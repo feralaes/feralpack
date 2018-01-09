@@ -4,7 +4,7 @@
 \alias{evpi}
 \title{Expected Value of Perfect Information (EVPI)}
 \usage{
-evpi(v.wtp, m.e, m.c)
+evpi(v.wtp, m.e, m.c, pop = 1)
 }
 \arguments{
 \item{v.wtp}{Numeric vector with willingness-to-pay (WTP) thresholds}
@@ -15,9 +15,7 @@ effectiveness.}
 \item{m.c}{Matrix of costs. Each column corresponds to a vector of
 costs.}
 
-\item{Outcomes}{Matrix with the model outputs. The outcomes must be ordered 
-in such a way that for each strategy the cost must appear first then the 
-effectiveness.}
+\item{pop}{A scalar that corresponds to the total population}
 }
 \value{
 evpi A data frame with the EVPI at each WTP threshold.

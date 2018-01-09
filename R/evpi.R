@@ -7,16 +7,14 @@
 #' effectiveness.
 #' @param m.c Matrix of costs. Each column corresponds to a vector of
 #' costs.
-#' @param Outcomes Matrix with the model outputs. The outcomes must be ordered 
-#' in such a way that for each strategy the cost must appear first then the 
-#' effectiveness.
+#' @param pop A scalar that corresponds to the total population
 #' @keywords expected value of perfect information; net monetary benefit
 #' @section Details:
 #' \code{evpi} calculates the value of eliminating all the uncertainty of a 
 #' cost-effectiveness analysis at each WTP threshold.
 #' @return evpi A data frame with the EVPI at each WTP threshold. 
 #'
-evpi <- function(v.wtp, m.e, m.c){
+evpi <- function(v.wtp, m.e, m.c, pop = 1){
   # Load required packages
   require(matrixStats)
   if(!(ncol(m.e) == ncol(m.c))){
@@ -45,7 +43,7 @@ evpi <- function(v.wtp, m.e, m.c){
     ## Calculate the opportunity loss from choosing d.star for each strategy
     loss <- nmb - nmb[, d.star]
     ## Compute EVPI
-    df.evpi$EVPI[l] <- mean(rowMaxs(as.matrix(loss))) # needs to be a numeric matrix
+    df.evpi$EVPI[l] <- mean(rowMaxs(as.matrix(loss))) * pop# needs to be a numeric matrix
   }
   #Return a data frame
   class(df.evpi) <- "evpi"
