@@ -40,6 +40,12 @@ ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = 
   library(reshape2)
   library(ggplot2)
   library(scales)
+  if(!ncol(m.e) == ncol(m.c)){
+    stop("Matrices of effectiveness and costs do not have same number of strategies.")
+  }
+  if(ncol(m.e)<2){
+    stop("You need at least two different strategies to compute EVPI.")
+  }
   # Create scalar with number of simulations
   n.sim <- nrow(m.e)
   # Create scalar with number of strategies (i.e. number of columns of 
