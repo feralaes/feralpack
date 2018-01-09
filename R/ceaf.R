@@ -101,6 +101,6 @@ ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = 
     print(gg.ceaf)
   }
   out <- list(df.ceac = df.ceac,
-              gg.ceac = gg.ceaf)
+              gg.ceaf = gg.ceaf)
   return(out)
 }
