@@ -4,10 +4,16 @@
 \alias{evpi}
 \title{Expected Value of Perfect Information (EVPI)}
 \usage{
-evpi(wtp, Outcomes)
+evpi(v.wtp, m.e, m.c)
 }
 \arguments{
-\item{wtp}{Numeric vector with willingness-to-pay (WTP) thresholds}
+\item{v.wtp}{Numeric vector with willingness-to-pay (WTP) thresholds}
+
+\item{m.e}{Matrix of effectiveness. Each column corresponds to a vector of
+effectiveness.}
+
+\item{m.c}{Matrix of costs. Each column corresponds to a vector of
+costs.}
 
 \item{Outcomes}{Matrix with the model outputs. The outcomes must be ordered 
 in such a way that for each strategy the cost must appear first then the 
@@ -23,7 +29,7 @@ evpi A data frame with the EVPI at each WTP threshold.
 \section{Details}{
 
 \code{evpi} calculates the value of eliminating all the uncertainty of a 
-cost-effectiveness analysis at each \code{wtp} threshold.
+cost-effectiveness analysis at each WTP threshold.
 }
 
 \keyword{benefit}
