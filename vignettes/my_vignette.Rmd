@@ -3,9 +3,9 @@ title: "Vignette for `dampack` package"
 author: "Fernando Alarid Escudero"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
-    fig_caption: yes
-  # - pdf_document
+  # rmarkdown::html_vignette:
+  #   fig_caption: yes
+  - pdf_document
   #BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -28,44 +28,24 @@ devtools::load_all()
 knitr::opts_chunk$set(fig.width=6.5, fig.height=4, fig.align="center")
 ```
 
-## Estimation of Dirichlet parameters using MoM
-The function `dirichlet_params` computes the $\alpha$ parameters of a Dirichlet distribution following the method of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
+## Install `dampack`
 
-If $\mu$ is a vector of means and $\sigma$ is a vector of standard deviations of the random variable, then the second moment $X_2$ is defined by $\sigma^2 + \mu^2$. Using the mean and the second moment, the $J$ alpha parameters are computed as follows
-$$ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} $$
-for $i = 1, \ldots, J-1$, and
+The R package `dampack` is not available (yet!) from CRAN. To use this package, you need to install the developer version from my github account. To do so, run the following commands.
 
-$$ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} $$
+```{r, eval=FALSE}
+install.packages("devtools") # Only if you don't have devtools installed already
+library(devtools)
+install_github("feralaes/dampack")
+```
 
-## Estimation of Log-normal parameters uisng MoM
-The function `lnorm_params` computes the location, $\mu$, and scale, $\sigma$, parameters of a log-normal distribution from the mean and variance of a random variable following the method of moments (MoM).
+You will have to wait for a few seconds to run and you should be good to go!
 
-Given the non-logarithmized mean and variance $m$ and $v$ of the random variable, respectively, the location, $\mu$, and scale, $\sigma$, of a log-normal distribution are given by the following equations
-
-$$ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} $$
-and
-
-$$ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} $$
-
-## EVPPI using linear regression metamodeling
-The expected value of partial perfect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, $\theta_I$ of a cost-effectiveness analysis (CEA) of $D$ different strategies with parameters $\theta = \{ \theta_I, \theta_C\}$, where $\theta_C$ is the set of complimentary parameters of the CEA. The function `evppi_lrmm` computes the EVPPI of $\theta_I$ from a matrix of net monetary benefits $B$ of the CEA. Each column of $B$ corresponds to the net benefit $B_d$ of strategy $d$. The function `evppi_lrmm` computes the EVPPI using a linear regression metamodel [@Strong2014b; @Jalal2017] approach following these steps:
-
-1. Determine the optimal strategy $d^*$ from the expected net benefits $\bar{B}$
-$$ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} $$
-1. Compute the opportunity loss for each $d$ strategy, $L_d$
-$$ L_d = B_d - B_{d^*} $$
-1. Estimate a linear metamodel for the opportunity loss of each $d$ strategy, $L_d$, by regressing them on the spline basis functions of $\theta_I$, $f(\theta_I)$
-$$ L_d = \beta_0 + f(\theta_I) + \epsilon,$$
-where $\epsilon$ is the residual term that captures the complementary parameters $\theta_C$ and the difference between the original simulation model and the metamodel.
-1. Compute the EVPPI of $\theta_I$ using the estimated losses for each $d$ strategy, $\hat{L}_d$ from the linear regression metamodel and applying the following equation:
-$$ \text{EVPPI}_{\theta_I} = \frac{1}{K}\sum_{i=1}^{K}\max_d\left(\hat{L}_d \right)$$
-
-The spline model in step 3 is fitted using the `mgcv` package.
+Given that this package is under current active development, future iterations of it might be significantly different. So use this package and it's functions at your own risk. I will try to keep future versions of this package as consistent as possible, though.
 
 ## Cost-effectiveness acceptability curves (CEAC) and Frontier (CEAF) 
 The cost-effectiveness acceptability curves (CEAC) determine the probability of each strategy being cost effective by willingness-to-pay (WTP) threshold [@VanHout1994]. The cost-effectiveness acceptability frontier (CEAF) determines the optimal strategy --defined as the strategy with the highest net benefit-- by WTP [@Fenwick2001]. The function `ceaf` computes both the CEAC and CEAF and returns a data frame and a `ggplot2` objects of these outcomes.
 
-To run the `ceaf` function you need a PSA, specify the strategies, the cost and effectiveness of these, and different values of WTP thresholds. The following code produces the CEAC and CEAF of the breast cancer CEA example included in this package.
+To run the `ceaf` function, you need a PSA, specify the strategies, the cost and effectiveness of these, and different values of WTP thresholds. The following code produces the CEAC and CEAF of the breast cancer CEA example included in this package.
 
 ```{r load-psa-cancer}
 # Load PSA dataset
@@ -86,7 +66,56 @@ gg.ceaf <- out$gg.ceaf
 plot(gg.ceaf)
 ```
 
+## Expected value of perfect information (EVPI)
 
+The expected value of perfect information (EVPI) represents the upper limit that a decision maker should be willing to pay to eliminate uncertainty in a decision model. 
+
+The function `evpi` computes the EVPI for different WTP thresholds and returns a data frame with these values. Similar to the `ceaf` function, to run the `evpi` function you need a PSA, the cost and effectiveness of these, and different values of WTP thresholds. The following code produces the EVPI of the breast cancer CEA example included in this package.
+
+```{r evpi-cancer, message=FALSE}
+df.evpi <- evpi(v.wtp = v.wtp, m.e = m.e , m.c = m.c)
+```
+
+To plot the EVPI, we use the function `plot.evpi` that takes `df.evpi` as argument.
+
+```{r plot-evpi-cancer, fig.cap = "Expected value of perfect information (EVPI)."}
+gg.evpi <- plot.evpi(evpi = df.evpi)
+gg.evpi
+```
+
+## EVPPI using linear regression metamodeling
+The expected value of partial perfect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, $\theta_I$ of a cost-effectiveness analysis (CEA) of $D$ different strategies with parameters $\theta = \{ \theta_I, \theta_C\}$, where $\theta_C$ is the set of complimentary parameters of the CEA. The function `evppi_lrmm` computes the EVPPI of $\theta_I$ from a matrix of net monetary benefits $B$ of the CEA. Each column of $B$ corresponds to the net benefit $B_d$ of strategy $d$. The function `evppi_lrmm` computes the EVPPI using a linear regression metamodel [@Strong2014b; @Jalal2017] approach following these steps:
+
+1. Determine the optimal strategy $d^*$ from the expected net benefits $\bar{B}$
+$$ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} $$
+1. Compute the opportunity loss for each $d$ strategy, $L_d$
+$$ L_d = B_d - B_{d^*} $$
+1. Estimate a linear metamodel for the opportunity loss of each $d$ strategy, $L_d$, by regressing them on the spline basis functions of $\theta_I$, $f(\theta_I)$
+$$ L_d = \beta_0 + f(\theta_I) + \epsilon,$$
+where $\epsilon$ is the residual term that captures the complementary parameters $\theta_C$ and the difference between the original simulation model and the metamodel.
+1. Compute the EVPPI of $\theta_I$ using the estimated losses for each $d$ strategy, $\hat{L}_d$ from the linear regression metamodel and applying the following equation:
+$$ \text{EVPPI}_{\theta_I} = \frac{1}{K}\sum_{i=1}^{K}\max_d\left(\hat{L}_d \right)$$
+
+The spline model in step 3 is fitted using the `mgcv` package.
+
+## Estimation of Dirichlet parameters using MoM
+The function `dirichlet_params` computes the $\alpha$ parameters of a Dirichlet distribution following the method of moments (MoM) proposed by @Fielitz1975 and @Narayanan1992.
+
+If $\mu$ is a vector of means and $\sigma$ is a vector of standard deviations of the random variable, then the second moment $X_2$ is defined by $\sigma^2 + \mu^2$. Using the mean and the second moment, the $J$ alpha parameters are computed as follows
+$$ \alpha_i = \frac{(\mu_1-X_{2_{1}})\mu_i}{X_{2_{1}}-\mu_1^2} $$
+for $i = 1, \ldots, J-1$, and
+
+$$ \alpha_J = \frac{(\mu_1-X_{2_{1}})(1-\sum_{i=1}^{J-1}{\mu_i})}{X_{2_{1}}-\mu_1^2} $$
+
+## Estimation of Log-normal parameters uisng MoM
+The function `lnorm_params` computes the location, $\mu$, and scale, $\sigma$, parameters of a log-normal distribution from the mean and variance of a random variable following the method of moments (MoM).
+
+Given the non-logarithmized mean and variance $m$ and $v$ of the random variable, respectively, the location, $\mu$, and scale, $\sigma$, of a log-normal distribution are given by the following equations
+
+$$ \mu = \ln{\left(\frac{m}{\sqrt{\left(1 + \frac{v}{m^2} \right)}}\right)} $$
+and
+
+$$ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} $$
 
 ## Vignette Info
 
