@@ -63,7 +63,7 @@ $$ \text{EVPPI}_{\theta_I} = \frac{1}{K}\sum_{i=1}^{K}\max_d\left(\hat{L}_d \rig
 The spline model in step 3 is fitted using the `mgcv` package.
 
 ## Cost-effectiveness acceptability curves (CEAC) and Frontier (CEAF) 
-The cost-effectiveness acceptability curves (CEAC) determine the probability of each strategy being cost effective by willingness-to-pay (WTP) threshold. The cost-effectiveness acceptability frontier (CEAF) determines the optimal strategy --defined as the strategy with the highest net benefit-- by WTP. The function `ceaf` computes both the CEAC and CEAF and returns a data frame and a `ggplot2` objects of these outcomes.
+The cost-effectiveness acceptability curves (CEAC) determine the probability of each strategy being cost effective by willingness-to-pay (WTP) threshold [@VanHout1994]. The cost-effectiveness acceptability frontier (CEAF) determines the optimal strategy --defined as the strategy with the highest net benefit-- by WTP [@Fenwick2001]. The function `ceaf` computes both the CEAC and CEAF and returns a data frame and a `ggplot2` objects of these outcomes.
 
 To run the `ceaf` function you need a PSA, specify the strategies, the cost and effectiveness of these, and different values of WTP thresholds. The following code produces the CEAC and CEAF of the breast cancer CEA example included in this package.
 
@@ -82,7 +82,7 @@ m.e <- psa[, c(3, 5, 7)]
 
 ```{r plot-ceaf-cancer, fig.cap = "Cost-effectiveness acceptability curves (CEAC) and forntier (CEAF)."}
 out <- ceaf(v.wtp = v.wtp, strategies = strategies, m.e = m.e , m.c = m.c)
-gg.ceaf <- out$gg.ceac
+gg.ceaf <- out$gg.ceaf
 plot(gg.ceaf)
 ```
 
