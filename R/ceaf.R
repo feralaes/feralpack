@@ -17,7 +17,9 @@
 #' @section Details:
 #' \code{ceaf} computes the probability of each of the strategies being 
 #' cost-effective at each \code{v.wtp} threshold.
-#' @return ceaf A melted data frame with each strategy's probability of being 
+#' @return df.ceaf A melted data frame with each strategy's probability of being 
+#' cost-effective at each WTP threshold.
+#' @return gg.ceaf A ggplot object with each strategy's probability of being 
 #' cost-effective at each WTP threshold.
 #' @examples 
 #' # Load PSA dataset
@@ -30,7 +32,9 @@
 #' m.c <- psa[, c(2, 4, 6)]
 #' # Matrix of effectiveness
 #' m.e <- psa[, c(3, 5, 7)]
-#' ceaf(v.wtp = v.wtp, strategies = strategies, m.e = m.e , m.c = m.c)
+#' out <- ceaf(v.wtp = v.wtp, strategies = strategies, 
+#'             m.e = m.e , m.c = m.c,
+#'             ceaf.out = TRUE)
 ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = FALSE){
   # Load required packages
   library(reshape2)
@@ -76,8 +80,7 @@ ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = 
   colors <- c(gg_color_hue(length(strats)), "#696969")
   point.size <- c(rep(2, length(strats)), 4) # Trick consists on firts define size as aes then manually change it
   # Plot CEAC & CEAF
-  print(
-    ggplot(data = df.ceac, aes(x = WTP/1000, y = value)) +
+    gg.ceaf <- ggplot(data = df.ceac, aes(x = WTP/1000, y = value)) +
       geom_point(aes(shape = Strategy, color = Strategy, size = Strategy)) +
       geom_line(aes(color = Strategy)) +
       ggtitle("Cost-Effectiveness Acceptability Curves and Frontier") + 
@@ -92,10 +95,12 @@ ceaf <- function(v.wtp, strategies = NULL, m.e, m.c, currency = "$", ceaf.out = 
       ylab("Pr Cost-Effective") +
       theme_bw(base_size = 14) +
       theme(legend.position = "bottom")
-  )
-  # Return a data frame of class ceac
+  # Return a data frame of class ceaf
   class(df.ceac) <- "ceaf"
   if(ceaf.out){
-    return(df.ceac)
+    print(gg.ceaf)
   }
+  out <- list(df.ceac = df.ceac,
+              gg.ceac = gg.ceaf)
+  return(out)
 }

@@ -23,7 +23,10 @@ costs.}
 be returned.}
 }
 \value{
-ceaf A melted data frame with each strategy's probability of being 
+df.ceaf A melted data frame with each strategy's probability of being 
+cost-effective at each WTP threshold.
+
+gg.ceaf A ggplot object with each strategy's probability of being 
 cost-effective at each WTP threshold.
 }
 \description{
@@ -48,7 +51,9 @@ v.wtp <- seq(1000, 150000, by = 10000)
 m.c <- psa[, c(2, 4, 6)]
 # Matrix of effectiveness
 m.e <- psa[, c(3, 5, 7)]
-ceaf(v.wtp = v.wtp, strategies = strategies, m.e = m.e , m.c = m.c)
+out <- ceaf(v.wtp = v.wtp, strategies = strategies, 
+            m.e = m.e , m.c = m.c,
+            ceaf.out = TRUE)
 }
 \keyword{acceptability}
 \keyword{cost-effectiveness}
