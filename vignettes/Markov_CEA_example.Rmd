@@ -36,6 +36,8 @@ library(kableExtra) # https://haozhu233.github.io/kableExtra/awesome_table_in_ht
 knitr::opts_chunk$set(fig.width=6.5, fig.height=4, fig.align="center")
 ```
 
+This document shows an example of how to conduct decision-analytic models in R[@Jalal2017b] using the R package `dampack`.
+
 # Model Description
 
 We will develop a 4-state Markov model with which to perform an analysis of the expected outcomes for a cohort of 55-year-old women who have undergone tumor excision for localized breast cancer (BCA).  After surgery, all patients are initially tumor-free (i.e., will start in the “Local” Markov state).  Each year, patients in the Local state face a 2% chance that they will experience a recurrence.  Of these recurrences, 75% will present as metastatic disease (and patients will enter the “Mets” Markov state), and the remainder present as local disease (and patients will enter the “Recur” Markov state).  Patients in the Recur state undergo repeat resection.  Following this operation, they face a 6% chance of recurrence each year.  (Assume that all local recurrences - 1st, 2nd, 3rd, etc. - have equivalent prognoses.)  Of these recurrences, 90% will present as metastatic disease.  Only patients with metastatic disease can die of breast cancer.  Finally, all patients in the local and recur state face a 7.6% annual probability of mortality and patients in the mets state face a 39% added risk of death. 
@@ -369,3 +371,4 @@ knitr::kable(markov.cea,
       caption = "CEA of new treatment for breast cancer patients") %>%
   kable_styling(latex_options = "hold_position")
 ```
+# References
