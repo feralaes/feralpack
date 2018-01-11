@@ -28,7 +28,7 @@ devtools::load_all()
 knitr::opts_chunk$set(fig.width=6.5, fig.height=4, fig.align="center")
 ```
 
-## Install `dampack`
+# Install `dampack`
 
 The R package `dampack` is not available (yet!) from CRAN. To use this package, you need to install the developer version from my github account. To do so, run the following commands.
 
@@ -42,7 +42,7 @@ You will have to wait for a few seconds to run and you should be good to go!
 
 Given that this package is under current active development, future iterations of it might be significantly different. So use this package and it's functions at your own risk. I will try to keep future versions of this package as consistent as possible, though.
 
-## Cost-effectiveness acceptability curves (CEAC) and Frontier (CEAF) 
+# Cost-effectiveness acceptability curves (CEAC) and Frontier (CEAF) 
 The cost-effectiveness acceptability curves (CEAC) determine the probability of each strategy being cost effective by willingness-to-pay (WTP) threshold [@VanHout1994]. The cost-effectiveness acceptability frontier (CEAF) determines the optimal strategy --defined as the strategy with the highest net benefit-- by WTP [@Fenwick2001]. The function `ceaf` computes both the CEAC and CEAF and returns a data frame and a `ggplot2` objects of these outcomes.
 
 To run the `ceaf` function, you need a PSA, specify the strategies, the cost and effectiveness of these, and different values of WTP thresholds. The following code produces the CEAC and CEAF of the breast cancer CEA example included in this package.
