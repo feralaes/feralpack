@@ -36,7 +36,7 @@ library(kableExtra) # https://haozhu233.github.io/kableExtra/awesome_table_in_ht
 knitr::opts_chunk$set(fig.width=6.5, fig.height=4, fig.align="center")
 ```
 
-This document shows an example of how to conduct decision-analytic models in R[@Jalal2017b] using the R package `dampack`.
+This document shows an example of how to conduct decision-analytic models in R [@Jalal2017b] using the R package `dampack`.
 
 The R package `dampack` has a couple functions that could be used to evaluate Markov models. Specifically, the function `CalculateMarkovTrace` takes a transition probability matrix (time-homogeneous) or array (time-dependent) and then simulates a cohort of hypothetical individuals, and returns a cohort trace and transition array. The function `ExpectedValue` takes a transition array and rewards matrix, and calculates expected outcomes. The package can be used to compare competing strategies and calculate their cost-effectiveness.  Below, we provide an applied example of these functions.
 
@@ -87,8 +87,6 @@ Table: (\#tab:param-table) Table of parameters.
 | Annual probability of recurrence   | `p.BCA1`    |  0.02         |
 | after first local tumor diagnosis  |             |               |
 | under usual care                   |             |               |
-<!-- | Hazard ratio of recurrence         | `hr.Recur`  |  0.5          | -->
-| under new treatment                |             |               |
 | Proportion of metastatic disease   | `p.Mets1`   |  0.75         |
 | of recurrences from the Local state|             |               |
 | Annual probability of recurrence   | `p.BCA2`    |  0.06         |
@@ -108,9 +106,6 @@ Table: (\#tab:param-table) Table of parameters.
 | - Recur state                      | `u.Recur`   |  0.80         |
 | - Mets state                       | `u.Mets`    |  0.40         |
 | - Dead state                       | `u.Dead`    |  0.00         |
-<!-- | Intervention effect                |             |               | -->
-<!-- | - Utility decrement of new treatment| `du.Local` |  0.05         | -->
-<!-- |   on women in Local state          |             |               | -->
 
 We input the parameters as follows:
 ```{r Model-Params, eval=TRUE}
@@ -170,6 +165,8 @@ m.P.UC["Dead", "Local"]  <- 0
 m.P.UC["Dead", "Recur"]  <- 0
 m.P.UC["Dead", "Mets"]   <- 0
 m.P.UC["Dead", "Dead"]   <- 1
+
+m.P.UC
 ```
 
 We assume that all women start in the Local state, therefore the initial state vector defined as `s0'
@@ -288,6 +285,8 @@ m.P.Rx["Dead", "Local"]  <- 0
 m.P.Rx["Dead", "Recur"]  <- 0
 m.P.Rx["Dead", "Mets"]   <- 0
 m.P.Rx["Dead", "Dead"]   <- 1
+
+m.P.Rx
 ```
 
 ## Run Markov model
