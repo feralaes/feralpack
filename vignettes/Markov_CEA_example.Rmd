@@ -1,5 +1,5 @@
 ---
-title: "Markov models for CEA in R"
+title: "Markov models for cost-effectiveness analysis in R"
 author: 
   - Fernando Alarid-Escudero, PhD^[Division of Health Policy and Management, University of Minnesota School of Public Health, Minneapolis, MN, USA]
   - Eric Jutkowitz, PhD^[Department of Health Services, Policy and Practice, Brown University School of Public Health, Providence, RI, USA]
@@ -38,11 +38,13 @@ knitr::opts_chunk$set(fig.width=6.5, fig.height=4, fig.align="center")
 
 This document shows an example of how to conduct decision-analytic models in R[@Jalal2017b] using the R package `dampack`.
 
+The R package `dampack` has a couple functions that could be used to evaluate Markov models. Specifically, the function `CalculateMarkovTrace` takes a transition probability matrix (time-homogeneous) or array (time-dependent) and then simulates a cohort of hypothetical individuals, and returns a cohort trace and transition array. The function `ExpectedValue` takes a transition array and rewards matrix, and calculates expected outcomes. The package can be used to compare competing strategies and calculate their cost-effectiveness.  Below, we provide an applied example of these functions.
+
 # Model Description
 
-We will develop a 4-state Markov model with which to perform an analysis of the expected outcomes for a cohort of 55-year-old women who have undergone tumor excision for localized breast cancer (BCA).  After surgery, all patients are initially tumor-free (i.e., will start in the “Local” Markov state).  Each year, patients in the Local state face a 2% chance that they will experience a recurrence.  Of these recurrences, 75% will present as metastatic disease (and patients will enter the “Mets” Markov state), and the remainder present as local disease (and patients will enter the “Recur” Markov state).  Patients in the Recur state undergo repeat resection.  Following this operation, they face a 6% chance of recurrence each year.  (Assume that all local recurrences - 1st, 2nd, 3rd, etc. - have equivalent prognoses.)  Of these recurrences, 90% will present as metastatic disease.  Only patients with metastatic disease can die of breast cancer.  Finally, all patients in the local and recur state face a 7.6% annual probability of mortality and patients in the mets state face a 39% added risk of death. 
+We will develop a 4-state Markov model to quantify the expected outcomes for a cohort of 55-year-old women who have undergone tumor excision for localized breast cancer (BCA).  After surgery, all patients are initially tumor-free (i.e., will start in the "Local" Markov state). Each year, patients in the Local state face a 2% chance that they will experience a recurrence.  Of these recurrences, 75% will present as metastatic disease (and patients will enter the "Mets"" Markov state), and the remainder present as local disease (and patients will enter the "Recur"" Markov state).  Patients in the Recur state undergo repeat resection.  Following this operation, they face a 6% chance of recurrence each year.  (Assume that all local recurrences - 1st, 2nd, 3rd, etc. - have equivalent prognoses.)  Of these recurrences, 90% will present as metastatic disease.  Only patients with metastatic disease can die of breast cancer.  Finally, all patients in the local and recur state face a 7.6% annual probability of mortality and patients in the mets state face a 39% added risk of death. 
 
-The Markov model described above represents usual care for women with breast cancer. Once we construct that Markov model, we will then add a second strategy of a hypothetical new treatment. The effect of this new treatment is to reduce the initial rate of cancer recurrence by 50%; however, the treatment also lowers the quality of life of women taking the medication because of side effects. Treatment is only taken by women who have not experienced a recurrence (i.e., those who reside in the Local state).  The Markov model for the treatment strategy will be structurally identical to that of the usual care strategy.
+The Markov model described above represents usual care for women with breast cancer. Once we construct that Markov model, we will then add a second strategy of a hypothetical new treatment. The effect of this new treatment is to reduce the initial rate of cancer recurrence by 50%; however, the treatment also lowers the quality of life of women (disutility of 0.05) taking the medication because of side effects. Treatment is only taken by women who have not experienced a recurrence (i.e., those who reside in the Local state).  The Markov model for the treatment strategy will be structurally identical to that of the usual care strategy.
 
 After comparing the two strategies based on quality-adjusted life expectancy (QALE) and costs, we will incorporate costs and calculate the incremental cost per quality-adjusted life year (QALY) gained of treatment compared with usual care.
 
@@ -60,14 +62,14 @@ n.s <- length(state.names)
 
 From the decision problem, we know that patients in the local state face a 2% chance of recurrence under usual care (defined as `p.BCA1`). Of these recurrences, 75% will present as metastatic disease (and patients will enter the “Mets” Markov state; defined as `p.Mets1`), and the remainder present as local disease (and patients will enter the “Recur” Markov state; i.e., `1-p.Mets1`). We will create variables to represent these probabilities of the transition matrix. Patients in the recur state face a 6% chance of recurrence each year (defined as `p.BCA2`). Of these recurrences, 90% will present as metastatic disease (defined as `p.Mets2`). 
 
-All patients in the local and recur state face a 0.076 annual rate of dying from non-BCA-related causes, $\mu_{Die}$ (defined as `mu.Die` in R). Patients in the Mets state face a 0.5 anual rate of of dying of metastatic cancer in addition to dying from other causes, $\mu_{DieMets}$ (defined as `mu.DieMets` in R). 
+All patients in the local and recur state face a 0.076 annual rate of dying from non-BCA-related causes, $\mu_{Die}$ (defined as `mu.Die`). Patients in the Mets state face a 0.5 anual rate of of dying of metastatic cancer in addition to dying from other causes, $\mu_{DieMets}$ (defined as `mu.DieMets`). 
 
-To compute the annual probability of dying from non-BCA-related causes (defined as `p.Die` in R) we transform the annual rate assuming constant exponential rate
+To compute the annual probability of dying from non-BCA-related causes (defined as `p.Die`) we transform the annual rate assuming constant exponential rate
 $$
   p_{Die} = 1-exp(-\mu_{Die})
 $$
 
-The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as muMets). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets` in R) is converted by summing these rates to an convert them to annual probabilities
+The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as muMets). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets`) is converted by summing these rates to an convert them to annual probabilities
 
 $$
   p_{DieMets} = 1-exp(-(\mu_{Die}+\mu_{DieMets}))
@@ -85,7 +87,7 @@ Table: (\#tab:param-table) Table of parameters.
 | Annual probability of recurrence   | `p.BCA1`    |  0.02         |
 | after first local tumor diagnosis  |             |               |
 | under usual care                   |             |               |
-| Hazard ratio of recurrence         | `hr.Recur`  |  0.5          |
+<!-- | Hazard ratio of recurrence         | `hr.Recur`  |  0.5          | -->
 | under new treatment                |             |               |
 | Proportion of metastatic disease   | `p.Mets1`   |  0.75         |
 | of recurrences from the Local state|             |               |
@@ -106,18 +108,16 @@ Table: (\#tab:param-table) Table of parameters.
 | - Recur state                      | `u.Recur`   |  0.80         |
 | - Mets state                       | `u.Mets`    |  0.40         |
 | - Dead state                       | `u.Dead`    |  0.00         |
-| Intervention effect                |             |               |
-| - Utility decrement of new treatment| `du.Local` |  0.05         |
-|   on women in Local state          |             |               |
+<!-- | Intervention effect                |             |               | -->
+<!-- | - Utility decrement of new treatment| `du.Local` |  0.05         | -->
+<!-- |   on women in Local state          |             |               | -->
 
-We input the parameters in R as follows:
+We input the parameters as follows:
 ```{r Model-Params, eval=TRUE}
 n.t        <- 51
 d.c        <- 0.03
 d.e        <- 0.03
 p.BCA1     <- 0.02
-hr.Recur   <- 0.5
-p.BCA1.Rx  <- 1-exp(log(1-p.BCA1)*hr.Recur)
 p.Mets1    <- 0.75
 p.BCA2     <- 0.06
 p.Mets2    <- 0.90
@@ -126,7 +126,6 @@ p.Die      <- 1 - exp(-mu.Die)
 mu.DieMets <- 0.5
 p.DieMets  <- 1 - exp(-(mu.Die + mu.DieMets))
 u.Local    <- 0.95
-du.Local   <- 0.05
 u.Recur    <- 0.80
 u.Mets     <- 0.40
 u.Dead     <- 0.00
@@ -137,16 +136,17 @@ c.Rx       <- 1000
 ```
 
 ## Transition matrix
-To construct the transition matrix for the usual care (UC) strategy, we first need to define a matrix in R that we will name `m.P.UC`. 
+To construct the transition matrix for the usual care (UC) strategy, we first need to define a matrix that we will name `m.P.UC`. We initialize the matrix with `NaN` so then it can be filled with numeric elements.
 
 ```{r Usual-care-Init}
 # Initialize matrix
-m.P.UC <- matrix(0, 
+m.P.UC <- matrix(NaN, 
                  nrow = n.s, ncol = n.s, 
                  dimnames = list(state.names, state.names))
+m.P.UC
 ```
 
-Each row in `m.P.UC` represent a health state and each of its elements store the transition probbailities from that particular state. We need to manually store each of these tranistion probabilities into the matrix.
+Each row in `m.P.UC` represent a health state and each of its elements store the transition probbailities from that particular state. We need to manually store each of these transition probabilities into the matrix.
 
 ```{r Usual-care-TM}
 # Fill in matrix
@@ -186,7 +186,7 @@ l.Markov.UC <- CalculateMarkovTrace(M = m.P.UC, p0 = s0, n.cycles = n.t)
 ```
 
 ## Rewards matrices
-To calculate life years, quality adjusted life years, and cost, we will specify a reward matrix for each of these outcomes. The elements of each of the columns of these matrices must contain the state rewards of the state corresponding to that column.
+To calculate life years, quality adjusted life years, and cost, we will specify a reward matrix for each of these outcomes. The elements of each of the columns of these matrices must contain the state rewards of the health state corresponding to that column.
 
 For the life years, for each year spent in any of the non-dead states, the cohort will get one year of life. That is, the elements of all the columns corresponding non-dead states equal to one.
 
@@ -198,7 +198,7 @@ m.LY.UC <- matrix(rep(c(1, 1, 1, 0), (n.s-1)),
 m.LY.UC
 ```
 
-For the QALY, we follow the similar procedure than for the LY's reward matrix but now each column has the utilities that correspond that particular state
+For the QALY, we follow the similar procedure for the LY's reward matrix but now each column has the utilities that correspond with that particular state
 
 ```{r Rewards Matrix QALYs-UC}
 m.QALY.UC <- matrix(rep(c(u.Local, u.Recur, u.Mets, u.Dead), n.s),
@@ -243,16 +243,27 @@ ev.C.UC
 ```
 
 # Markov structure: New treatment
+We will now model the effect of a hypothetical new treatment. This new treatment competes with usual care. From the decision problem, we know that the treatment is only taken by women who have not experienced a recurrence (i.e., those who reside in the Local state). 
 
-Table \@ref(tab:param-table) shows parameters of the model of the new treatment.
+The new treatment reduces the initial rate of cancer recurrence by 50% (i.e., a hazard ratio or recurrence under new treatment, defined as `hr.Recur`). To compute the probability of cancer recurrence associated with treatment (defined as `p.BCA1.Rx`), we first transform the probability of cancer recurrence without treatment to a rate. We then multiply the rate of cancer recurrence without treatment by the treatment effect (`hr.Recur` = 0.50). Finally, we convert the rate back to a probability to represent the probability of cancer recurrence for those who receive treatment.
+
+```{r Rx-Effect}
+hr.Recur   <- 0.5
+p.BCA1.Rx  <- 1-exp(log(1-p.BCA1)*hr.Recur)
+```
 
 ## Transition matrix
 
+We will incorporate the effects of treatment in a new transition matrix (defined as `m.P.Rx`). The treatment transition matrix will incorporate the treatment effects which impact transitions from the local disease state to the disease recurrence state and from the local disease state to the metastatic disease state. All other transitions in the model are identical to those in the usual care transition matrix (Table \@ref(tab:param-table)). 
+
+As before, each row in the transition matrix represents a health state and each element of the matrix store the transition probabilities. Ultimately, we will be able to compare the expected outcomes between the usual care and treatment models. We manually enter the transition probabilities into the matrix. 
+
 ```{r Rx-Init}
 # Initialize matrix
-m.P.Rx <- matrix(0, 
+m.P.Rx <- matrix(NaN, 
                  nrow = n.s, ncol = n.s, 
                  dimnames = list(state.names, state.names))
+m.P.Rx
 ```
 
 ```{r Rx-TM}
@@ -293,8 +304,13 @@ The LY's reward matrix for Rx is the same than for UC.
 m.LY.Rx <- m.LY.UC
 ```
 
-The reward matrix for Rx changes by adding the disutility from the treatment to the Local state.
+As noted in the decision problem, treatment lowers the quality of life (i.e., utility decrement) of women taking the medication due to side effects (defined as `du.Local`). We incorporate the disutility (0.05) associated with treatment into the reward matrix for the Local state of the Rx model. 
 
+```{r Rx-DisUtility}
+du.Local <- 0.05
+```
+
+The reward matrix for Rx changes by adding the disutility from the treatment to the Local state.
 ```{r Rewards Matrix QALYs-Rx}
 m.QALY.Rx <- matrix(rep(c(u.Local-du.Local, u.Recur, u.Mets, u.Dead), n.s),
                     byrow = TRUE,
