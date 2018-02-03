@@ -11,6 +11,7 @@ output:
   # - pdf_document
   #BiocStyle::html_document
     bookdown::pdf_book:
+    # bookdown::html_document2:
     toc: true
     toc_depth: 4
     keep_tex: true
@@ -390,4 +391,5 @@ knitr::kable(markov.cea,
       caption = "CEA of new treatment for breast cancer patients") %>%
   kable_styling(latex_options = "hold_position")
 ```
+
 # References
