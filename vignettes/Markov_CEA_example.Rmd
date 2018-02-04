@@ -11,11 +11,14 @@ output:
   # - pdf_document
   #BiocStyle::html_document
     bookdown::pdf_book:
+      toc: true
+      toc_depth: 4
+      keep_tex: true
+      fig_caption: true
     # bookdown::html_document2:
-    toc: true
-    toc_depth: 4
-    keep_tex: true
-    fig_caption: true
+    # toc: true
+    # toc_depth: 4
+    # fig_caption: true
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -74,7 +77,7 @@ $$
   p_{Die} = 1-exp(-\mu_{Die})
 $$
 
-The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as muMets). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets`) is converted by summing these rates to an convert them to annual probabilities
+The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as muMets). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets`) is converted by summing these rates and convert them to annual probabilities
 
 $$
   p_{DieMets} = 1-exp(-(\mu_{Die}+\mu_{DieMets}))
