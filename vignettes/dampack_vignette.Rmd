@@ -84,7 +84,7 @@ gg.evpi
 ```
 
 ## EVPPI using linear regression metamodeling
-The expected value of partial perfect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, $\theta_I$ of a cost-effectiveness analysis (CEA) of $D$ different strategies with parameters $\theta = \{ \theta_I, \theta_C\}$, where $\theta_C$ is the set of complimentary parameters of the CEA. The function `evppi_lrmm` computes the EVPPI of $\theta_I$ from a matrix of net monetary benefits $B$ of the CEA. Each column of $B$ corresponds to the net benefit $B_d$ of strategy $d$. The function `evppi_lrmm` computes the EVPPI using a linear regression metamodel [@Strong2014b; @Jalal2017] approach following these steps:
+The expected value of partial perfect information (EVPPI) is the expected value of perfect information from a subset of parameters of interest, $\theta_I$ of a cost-effectiveness analysis (CEA) of $D$ different strategies with parameters $\theta = \{ \theta_I, \theta_C\}$, where $\theta_C$ is the set of complimentary parameters of the CEA. The function `evppi_lrmm` computes the EVPPI of $\theta_I$ from a matrix of net monetary benefits $B$ of the CEA. Each column of $B$ corresponds to the net benefit $B_d$ of strategy $d$. The function `evppi_lrmm` computes the EVPPI using a linear regression metamodel [@Strong2014b; @Jalal2018] approach following these steps:
 
 1. Determine the optimal strategy $d^*$ from the expected net benefits $\bar{B}$
 $$ d^* = \operatorname{arg\,max}_{d} \left\{\bar{B}\right\} $$
@@ -117,29 +117,29 @@ and
 
 $$ \sigma = \sqrt{\ln{\left( 1 + \frac{v}{m^2}\right)}} $$
 
-## Vignette Info
+<!-- ## Vignette Info -->
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+<!-- Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette. -->
 
-## Styles
+<!-- ## Styles -->
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+<!-- The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows: -->
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+<!--     output:  -->
+<!--       rmarkdown::html_vignette: -->
+<!--         css: mystyles.css -->
 
-## More Examples
+<!-- ## More Examples -->
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+<!-- You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`. -->
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
+<!-- ```{r, echo=FALSE, results='asis'} -->
+<!-- knitr::kable(head(mtcars, 10)) -->
+<!-- ``` -->
 
-Also a quote using `>`:
+<!-- Also a quote using `>`: -->
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+<!-- > "He who gives up [code] safety for [code] speed deserves neither." -->
+<!-- ([via](https://twitter.com/hadleywickham/status/504368538874703872)) -->
 
 # References
