@@ -1,7 +1,7 @@
 # dampack: an R package for decision-analytic modeling
 The `dampack` R package implements useful functions to develop and analyze decision-analytic models in R. The current functions compute cost-effectiveness acceptability curves (CEAC) and frontier (CEAF), expected value of perfect information (EVPI), expected value of partial perfect information (EVPPI), sensitivity analysis (SA) using linear regression metamodeling including one- and two-way. 
 
-The package also includes functions to simulate state-tranistion models and produce expected outcomes of interested.
+The package also includes functions to simulate state-transition models and produce expected outcomes of interested.
 
 In addition, this package includes useful functions to obtain parameters of commonly used distributions 
 
@@ -14,9 +14,10 @@ devtools::install_github("feralaes/dampack")
 ```
 
 ## Documentation
-Documentation is still under development but the most current description of the function in this package appear in `vignettes`. Specifically, in the vignette `dampack_vignette`, we provide examples on how to use the differnet functions of the package and in the `Markov_CEA_example` vignette, we provide an example on how to run Markov models for cost-effectiveness analysis in R using the functions of the dampack package.
+Documentation is still under development but the most current description of the function in this package appear in `vignettes`. Specifically, in the vignette `dampack_vignette`, we provide examples on how to use the different functions of the package and in the `Markov_CEA_example` vignette, we provide an example on how to run Markov models for cost-effectiveness analysis (CEA) in R using the functions of the dampack package.
 
 ## Example
+Below, we provide a brief example on how to plot the cost-effectiveness acceptability curves (CEAC) and frontier (CEAF) of a three-strategy CEA using a probabilistic sensitivity analysis (PSA) dataset.
 ```R
 library(dampack)
 # Load PSA dataset
