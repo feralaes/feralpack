@@ -77,7 +77,7 @@ $$
   p_{Die} = 1-exp(-\mu_{Die})
 $$
 
-The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as muMets). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets`) is converted by summing these rates and convert them to annual probabilities
+The overall annual mortality rate for women with metastatic disease is equal to the sum of the rates of dying from other causes and the excess disease-specific mortality rate (defined as `mu.DieMets`). Therefore, the annual probability of dying in the Mets state (defined as `p.DieMets`) is converted by summing these rates and convert them to annual probabilities
 
 $$
   p_{DieMets} = 1-exp(-(\mu_{Die}+\mu_{DieMets}))
@@ -136,6 +136,7 @@ c.Local    <- 500
 c.Recur    <- 5000
 c.Mets     <- 20000
 c.Rx       <- 1000
+c.Dead     <- 0
 ```
 
 ## Transition matrix
@@ -161,7 +162,7 @@ m.P.UC["Local", "Dead"]  <- p.Die
 # From Recur
 m.P.UC["Recur", "Local"] <- 0
 m.P.UC["Recur", "Recur"] <- (1 - p.Die) * ((1 - p.BCA2) + (p.BCA2 * (1 - p.Mets2)))
-m.P.UC["Recur", "Mets"]  <- (1-p.Die)*p.BCA2*p.Mets2
+m.P.UC["Recur", "Mets"]  <- (1 - p.Die) * p.BCA2 * p.Mets2
 m.P.UC["Recur", "Dead"]  <- p.Die
 # From Mets
 m.P.UC["Mets", "Local"]  <- 0
@@ -196,7 +197,7 @@ To calculate life years, quality adjusted life years, and cost, we will specify 
 For the life years, for each year spent in any of the non-dead states, the cohort will get one year of life. That is, the elements of all the columns corresponding non-dead states equal to one.
 
 ```{r Rewards Matrix life years-UC}
-m.LY.UC <- matrix(rep(c(1, 1, 1, 0), (n.s-1)), 
+m.LY.UC <- matrix(rep(c(1, 1, 1, 0), (n.s - 1)), 
                   byrow = TRUE,
                   nrow = n.s, ncol = n.s, 
                   dimnames = list(state.names, state.names))
@@ -214,7 +215,7 @@ m.QALY.UC
 ```
 
 ```{r Rewards Matrix Costs-UC}
-m.C.UC <- matrix(rep(c(c.Local, c.Recur, c.Mets, 0), n.s),
+m.C.UC <- matrix(rep(c(c.Local, c.Recur, c.Mets, c.Dead), n.s),
                  byrow = TRUE,
                  nrow = n.s, ncol = n.s, 
                  dimnames = list(state.names, state.names))
@@ -226,7 +227,7 @@ Using the `ExpectedValue` function from the `dampack` package, we calculate the 
 ```{r Calculate Expected Value Life Year-UC}
 ev.LY.UC <- ExpectedValue(trans = l.Markov.UC$trans, 
                           rwd = m.LY.UC, 
-                          r = d.e, half = T)
+                          r = d.e, half = TRUE)
 ev.LY.UC
 ```
 
@@ -254,7 +255,7 @@ The new treatment reduces the initial rate of cancer recurrence by 50% (i.e., a 
 
 ```{r Rx-Effect}
 hr.Recur   <- 0.5
-p.BCA1.Rx  <- 1-exp(log(1-p.BCA1)*hr.Recur)
+p.BCA1.Rx  <- 1 - exp(log(1 - p.BCA1) * hr.Recur)
 ```
 
 ## Transition matrix
@@ -281,7 +282,7 @@ m.P.Rx["Local", "Dead"]  <- p.Die
 # From Recur
 m.P.Rx["Recur", "Local"] <- 0
 m.P.Rx["Recur", "Recur"] <- (1 - p.Die) * ((1 - p.BCA2) + (p.BCA2 * (1 - p.Mets2)))
-m.P.Rx["Recur", "Mets"]  <- (1-p.Die)*p.BCA2*p.Mets2
+m.P.Rx["Recur", "Mets"]  <- (1 - p.Die) * p.BCA2 * p.Mets2
 m.P.Rx["Recur", "Dead"]  <- p.Die
 # From Mets
 m.P.Rx["Mets", "Local"]  <- 0
@@ -327,7 +328,7 @@ m.QALY.Rx
 ```
 
 ```{r Rewards Matrix Costs-Rx}
-m.C.Rx <- matrix(rep(c(c.Local + c.Rx, c.Recur, c.Mets, 0), n.s),
+m.C.Rx <- matrix(rep(c(c.Local + c.Rx, c.Recur, c.Mets, c.Dead), n.s),
                  byrow = TRUE,
                  nrow = n.s, ncol = n.s, 
                  dimnames = list(state.names, state.names))
