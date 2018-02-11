@@ -126,7 +126,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2018-02-03}
+  \date{2018-02-11}
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -179,7 +179,8 @@ functions.
 \section{Model Description}\label{model-description}
 
 We will develop a 4-state Markov model to quantify the expected outcomes
-for a cohort of 55-year-old women who have undergone tumor excision for
+(costs and quality-adjusted life years {[}QALYs{]}) for a hypothetical
+cohort of 55-year-old women who have undergone tumor excision for
 localized breast cancer (BCA). After surgery, all patients are initially
 tumor-free (i.e., will start in the ``Local'' Markov state). Each year,
 patients in the Local state face a 2\% chance that they will experience
@@ -192,10 +193,12 @@ recurrence each year. (Assume that all local recurrences - 1st, 2nd,
 3rd, etc. - have equivalent prognoses.) Of these recurrences, 90\% will
 present as metastatic disease. Only patients with metastatic disease can
 die of breast cancer. Finally, all patients in the local and recur state
-face a 7.6\% annual probability of mortality and patients in the mets
-state face a 39\% added risk of death. The state-transition diagram of
-this 4-state Markov model is shown in Figure
-\ref{fig:state-transition-diag}.
+face a 0.08 annual rate of mortality of dying from non-BCA related
+causes and patients in the mets state face a 0.5 anual rate of of dying
+of metastatic cancer in addition to dying from other causes. The
+state-transition diagram of this 4-state Markov model is shown in Figure
+\ref{fig:state-transition-diag} and the Markov tree diagram that shows
+how transitions occur is shown in Figure \ref{fig:Markov-tree-diag}.
 
 \begin{figure}[H]
 
@@ -204,6 +207,15 @@ this 4-state Markov model is shown in Figure
 }
 
 \caption{State-transition diagram of a 4-state Markov model of breast cancer.}\label{fig:state-transition-diag}
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/Markov-tree-BRCA} 
+
+}
+
+\caption{Markov tree diagram with transitions between health states.}\label{fig:Markov-tree-diag}
 \end{figure}
 
 The Markov model described above represents usual care for women with
@@ -269,8 +281,8 @@ constant exponential rate \[
 
 The overall annual mortality rate for women with metastatic disease is
 equal to the sum of the rates of dying from other causes and the excess
-disease-specific mortality rate (defined as muMets). Therefore, the
-annual probability of dying in the Mets state (defined as
+disease-specific mortality rate (defined as \texttt{mu.DieMets}).
+Therefore, the annual probability of dying in the Mets state (defined as
 \texttt{p.DieMets}) is converted by summing these rates and convert them
 to annual probabilities
 
@@ -348,6 +360,7 @@ We input the parameters as follows:
 \NormalTok{c.Recur    <-}\StringTok{ }\DecValTok{5000}
 \NormalTok{c.Mets     <-}\StringTok{ }\DecValTok{20000}
 \NormalTok{c.Rx       <-}\StringTok{ }\DecValTok{1000}
+\NormalTok{c.Dead     <-}\StringTok{ }\DecValTok{0}
 \end{Highlighting}
 \end{Shaded}
 
@@ -392,7 +405,7 @@ the matrix.
 \CommentTok{# From Recur}
 \NormalTok{m.P.UC[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Local"}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
 \NormalTok{m.P.UC[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Recur"}\NormalTok{] <-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Die) }\OperatorTok{*}\StringTok{ }\NormalTok{((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.BCA2) }\OperatorTok{+}\StringTok{ }\NormalTok{(p.BCA2 }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Mets2)))}
-\NormalTok{m.P.UC[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Mets"}\NormalTok{]  <-}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p.Die)}\OperatorTok{*}\NormalTok{p.BCA2}\OperatorTok{*}\NormalTok{p.Mets2}
+\NormalTok{m.P.UC[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Mets"}\NormalTok{]  <-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Die) }\OperatorTok{*}\StringTok{ }\NormalTok{p.BCA2 }\OperatorTok{*}\StringTok{ }\NormalTok{p.Mets2}
 \NormalTok{m.P.UC[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Dead"}\NormalTok{]  <-}\StringTok{ }\NormalTok{p.Die}
 \CommentTok{# From Mets}
 \NormalTok{m.P.UC[}\StringTok{"Mets"}\NormalTok{, }\StringTok{"Local"}\NormalTok{]  <-}\StringTok{ }\DecValTok{0}
@@ -456,7 +469,7 @@ columns corresponding non-dead states equal to one.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{m.LY.UC <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), (n.s}\OperatorTok{-}\DecValTok{1}\NormalTok{)), }
+\NormalTok{m.LY.UC <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{), (n.s }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)), }
                   \DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{,}
                   \DataTypeTok{nrow =}\NormalTok{ n.s, }\DataTypeTok{ncol =}\NormalTok{ n.s, }
                   \DataTypeTok{dimnames =} \KeywordTok{list}\NormalTok{(state.names, state.names))}
@@ -496,7 +509,7 @@ particular state
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{m.C.UC <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(c.Local, c.Recur, c.Mets, }\DecValTok{0}\NormalTok{), n.s),}
+\NormalTok{m.C.UC <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(c.Local, c.Recur, c.Mets, c.Dead), n.s),}
                  \DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{,}
                  \DataTypeTok{nrow =}\NormalTok{ n.s, }\DataTypeTok{ncol =}\NormalTok{ n.s, }
                  \DataTypeTok{dimnames =} \KeywordTok{list}\NormalTok{(state.names, state.names))}
@@ -525,7 +538,7 @@ ask to conduct a half cycle correction.
 \begin{Highlighting}[]
 \NormalTok{ev.LY.UC <-}\StringTok{ }\KeywordTok{ExpectedValue}\NormalTok{(}\DataTypeTok{trans =}\NormalTok{ l.Markov.UC}\OperatorTok{$}\NormalTok{trans, }
                           \DataTypeTok{rwd =}\NormalTok{ m.LY.UC, }
-                          \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =}\NormalTok{ T)}
+                          \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ev.LY.UC}
 \end{Highlighting}
 \end{Shaded}
@@ -587,7 +600,7 @@ recurrence for those who receive treatment.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{hr.Recur   <-}\StringTok{ }\FloatTok{0.5}
-\NormalTok{p.BCA1.Rx  <-}\StringTok{ }\DecValTok{1}\OperatorTok{-}\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p.BCA1)}\OperatorTok{*}\NormalTok{hr.Recur)}
+\NormalTok{p.BCA1.Rx  <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.BCA1) }\OperatorTok{*}\StringTok{ }\NormalTok{hr.Recur)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -636,7 +649,7 @@ probabilities into the matrix.
 \CommentTok{# From Recur}
 \NormalTok{m.P.Rx[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Local"}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
 \NormalTok{m.P.Rx[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Recur"}\NormalTok{] <-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Die) }\OperatorTok{*}\StringTok{ }\NormalTok{((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.BCA2) }\OperatorTok{+}\StringTok{ }\NormalTok{(p.BCA2 }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Mets2)))}
-\NormalTok{m.P.Rx[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Mets"}\NormalTok{]  <-}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p.Die)}\OperatorTok{*}\NormalTok{p.BCA2}\OperatorTok{*}\NormalTok{p.Mets2}
+\NormalTok{m.P.Rx[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Mets"}\NormalTok{]  <-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.Die) }\OperatorTok{*}\StringTok{ }\NormalTok{p.BCA2 }\OperatorTok{*}\StringTok{ }\NormalTok{p.Mets2}
 \NormalTok{m.P.Rx[}\StringTok{"Recur"}\NormalTok{, }\StringTok{"Dead"}\NormalTok{]  <-}\StringTok{ }\NormalTok{p.Die}
 \CommentTok{# From Mets}
 \NormalTok{m.P.Rx[}\StringTok{"Mets"}\NormalTok{, }\StringTok{"Local"}\NormalTok{]  <-}\StringTok{ }\DecValTok{0}
@@ -696,7 +709,7 @@ treatment to the Local state.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{m.QALY.Rx <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(u.Local}\OperatorTok{-}\NormalTok{du.Local, u.Recur, u.Mets, u.Dead), n.s),}
+\NormalTok{m.QALY.Rx <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(u.Local }\OperatorTok{-}\StringTok{ }\NormalTok{du.Local, u.Recur, u.Mets, u.Dead), n.s),}
                     \DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{,}
                  \DataTypeTok{nrow =}\NormalTok{ n.s, }\DataTypeTok{ncol =}\NormalTok{ n.s, }
                  \DataTypeTok{dimnames =} \KeywordTok{list}\NormalTok{(state.names, state.names))}
@@ -714,7 +727,7 @@ treatment to the Local state.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{m.C.Rx <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(c.Local }\OperatorTok{+}\StringTok{ }\NormalTok{c.Rx, c.Recur, c.Mets, }\DecValTok{0}\NormalTok{), n.s),}
+\NormalTok{m.C.Rx <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(c.Local }\OperatorTok{+}\StringTok{ }\NormalTok{c.Rx, c.Recur, c.Mets, c.Dead), n.s),}
                  \DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{,}
                  \DataTypeTok{nrow =}\NormalTok{ n.s, }\DataTypeTok{ncol =}\NormalTok{ n.s, }
                  \DataTypeTok{dimnames =} \KeywordTok{list}\NormalTok{(state.names, state.names))}
@@ -736,7 +749,7 @@ treatment to the Local state.
 \begin{Highlighting}[]
 \NormalTok{ev.LY.Rx <-}\StringTok{ }\KeywordTok{ExpectedValue}\NormalTok{(}\DataTypeTok{trans =}\NormalTok{ l.Markov.Rx}\OperatorTok{$}\NormalTok{trans, }
                           \DataTypeTok{rwd =}\NormalTok{ m.LY.Rx, }
-                          \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =}\NormalTok{ T)}
+                          \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ev.LY.Rx}
 \end{Highlighting}
 \end{Shaded}
@@ -752,7 +765,7 @@ using the reward matrix for QALYs \texttt{m.QALY.Rx}
 \begin{Highlighting}[]
 \NormalTok{ev.QALY.Rx <-}\StringTok{ }\KeywordTok{ExpectedValue}\NormalTok{(}\DataTypeTok{trans =}\NormalTok{ l.Markov.Rx}\OperatorTok{$}\NormalTok{trans, }
                             \DataTypeTok{rwd =}\NormalTok{ m.QALY.Rx, }
-                            \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =}\NormalTok{ T)}
+                            \DataTypeTok{r =}\NormalTok{ d.e, }\DataTypeTok{half =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ev.QALY.Rx}
 \end{Highlighting}
 \end{Shaded}
@@ -768,7 +781,7 @@ using the reward matrix for costs \texttt{m.C.Rx}
 \begin{Highlighting}[]
 \NormalTok{ev.C.Rx <-}\StringTok{ }\KeywordTok{ExpectedValue}\NormalTok{(}\DataTypeTok{trans =}\NormalTok{ l.Markov.Rx}\OperatorTok{$}\NormalTok{trans, }
                          \DataTypeTok{rwd =}\NormalTok{ m.C.Rx, }
-                         \DataTypeTok{r =}\NormalTok{ d.c, }\DataTypeTok{half =}\NormalTok{ T)}
+                         \DataTypeTok{r =}\NormalTok{ d.c, }\DataTypeTok{half =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ev.C.Rx}
 \end{Highlighting}
 \end{Shaded}

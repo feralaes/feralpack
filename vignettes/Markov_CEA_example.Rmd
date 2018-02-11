@@ -16,9 +16,9 @@ output:
       keep_tex: true
       fig_caption: true
     # bookdown::html_document2:
-    # toc: true
-    # toc_depth: 4
-    # fig_caption: true
+    #   toc: true
+    #   toc_depth: 4
+    #   fig_caption: true
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -46,10 +46,14 @@ The R package `dampack` has a couple functions that could be used to evaluate Ma
 
 # Model Description
 
-We will develop a 4-state Markov model to quantify the expected outcomes for a cohort of 55-year-old women who have undergone tumor excision for localized breast cancer (BCA).  After surgery, all patients are initially tumor-free (i.e., will start in the "Local" Markov state). Each year, patients in the Local state face a 2% chance that they will experience a recurrence.  Of these recurrences, 75% will present as metastatic disease (and patients will enter the "Mets"" Markov state), and the remainder present as local disease (and patients will enter the "Recur"" Markov state).  Patients in the Recur state undergo repeat resection.  Following this operation, they face a 6% chance of recurrence each year.  (Assume that all local recurrences - 1st, 2nd, 3rd, etc. - have equivalent prognoses.)  Of these recurrences, 90% will present as metastatic disease.  Only patients with metastatic disease can die of breast cancer.  Finally, all patients in the local and recur state face a 7.6% annual probability of mortality and patients in the mets state face a 39% added risk of death. The state-transition diagram of this 4-state Markov model is shown in Figure \@ref(fig:state-transition-diag).
+We will develop a 4-state Markov model to quantify the expected outcomes (costs and quality-adjusted life years [QALYs]) for a hypothetical cohort of 55-year-old women who have undergone tumor excision for localized breast cancer (BCA).  After surgery, all patients are initially tumor-free (i.e., will start in the "Local" Markov state). Each year, patients in the Local state face a 2% chance that they will experience a recurrence.  Of these recurrences, 75% will present as metastatic disease (and patients will enter the "Mets"" Markov state), and the remainder present as local disease (and patients will enter the "Recur"" Markov state).  Patients in the Recur state undergo repeat resection.  Following this operation, they face a 6% chance of recurrence each year. (Assume that all local recurrences - 1st, 2nd, 3rd, etc. - have equivalent prognoses.) Of these recurrences, 90% will present as metastatic disease.  Only patients with metastatic disease can die of breast cancer.  Finally, all patients in the local and recur state face a 0.08 annual rate of mortality of dying from non-BCA related causes and patients in the mets state face a 0.5 anual rate of of dying of metastatic cancer in addition to dying from other causes. The state-transition diagram of this 4-state Markov model is shown in Figure \@ref(fig:state-transition-diag) and the Markov tree diagram that shows how transitions occur is shown in Figure \@ref(fig:Markov-tree-diag).
 
 ```{r state-transition-diag, echo=FALSE, fig.cap="State-transition diagram of a 4-state Markov model of breast cancer.", fig.pos="H"}
 knitr::include_graphics("figs/Markov-Diagram-BRCA.pdf") 
+```
+
+```{r Markov-tree-diag, echo=FALSE, fig.cap="Markov tree diagram with transitions between health states.", fig.pos="H"}
+knitr::include_graphics("figs/Markov-tree-BRCA.pdf") 
 ```
 
 The Markov model described above represents usual care for women with breast cancer. Once we construct that Markov model, we will then add a second strategy of a hypothetical new treatment. The effect of this new treatment is to reduce the initial rate of cancer recurrence by 50%; however, the treatment also lowers the quality of life of women (disutility of 0.05) taking the medication because of side effects. Treatment is only taken by women who have not experienced a recurrence (i.e., those who reside in the Local state).  The Markov model for the treatment strategy will be structurally identical to that of the usual care strategy.
@@ -320,7 +324,7 @@ du.Local <- 0.05
 
 The reward matrix for Rx changes by adding the disutility from the treatment to the Local state.
 ```{r Rewards Matrix QALYs-Rx}
-m.QALY.Rx <- matrix(rep(c(u.Local-du.Local, u.Recur, u.Mets, u.Dead), n.s),
+m.QALY.Rx <- matrix(rep(c(u.Local - du.Local, u.Recur, u.Mets, u.Dead), n.s),
                     byrow = TRUE,
                  nrow = n.s, ncol = n.s, 
                  dimnames = list(state.names, state.names))
@@ -340,7 +344,7 @@ m.C.Rx
 ```{r Calculate Expected Value Life Year-Rx}
 ev.LY.Rx <- ExpectedValue(trans = l.Markov.Rx$trans, 
                           rwd = m.LY.Rx, 
-                          r = d.e, half = T)
+                          r = d.e, half = TRUE)
 ev.LY.Rx
 ```
 
@@ -348,7 +352,7 @@ To compute the expected QALYs, we follow the same procedure but now using the re
 ```{r Calculate Expected Value QALY-Rx}
 ev.QALY.Rx <- ExpectedValue(trans = l.Markov.Rx$trans, 
                             rwd = m.QALY.Rx, 
-                            r = d.e, half = T)
+                            r = d.e, half = TRUE)
 ev.QALY.Rx
 ```
 
@@ -357,7 +361,7 @@ To compute the expected costs, we follow the same procedure but now using the re
 ```{r Calculate Expected Value Costs-Rx}
 ev.C.Rx <- ExpectedValue(trans = l.Markov.Rx$trans, 
                          rwd = m.C.Rx, 
-                         r = d.c, half = T)
+                         r = d.c, half = TRUE)
 ev.C.Rx
 ```
 
