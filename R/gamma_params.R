@@ -14,7 +14,7 @@
 #' \eqn{\sigma} is the standard deviation of the random variable, then the
 #' the shape, \eqn{\alpha}, scale, \eqn{\theta}, and rate, \eqn{\beta}, parameteres are computed 
 #' as follows
-#' \deqn{\alpha=\frac{\mu^2}{\sigma^2}},
+#' \deqn{\alpha=\frac{\mu^2}{\sigma^2},}
 #' \deqn{\theta = \frac{\sigma^2}{\mu}}
 #' and
 #' \deqn{\beta = \frac{\mu}{\sigma^2}}
