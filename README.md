@@ -37,5 +37,10 @@ out <- ceaf(v.wtp = v.wtp, strategies = strategies,
 # Plot CEAF
 out$gg.ceaf
 ```
+## Full list of Contributors:
 
+  * [Fernando Alarid-Escudero](https://github.com/feralaes)
+  
+  * [Eline Krijkamp](https://github.com/krijkamp)
 
+  * Eric Jutkowitz
