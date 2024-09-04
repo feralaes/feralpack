@@ -1,9 +1,7 @@
-Package: dampack
+Package: feralpack
 Title: Package with useful decision-analytic modeling tools
 Version: 0.0.0.9000
-Authors@R: c(person("Fernando", "Alarid-Escudero", email = "alari006@umn.edu", role = c("aut", "cre")),
-             person("Hawre", "Jalal", email = "hjalal@pitt.edu", role = "ctb"),
-             person("Eline", "Krijkamp", email = "elinekrijkamp@gmail.com", role = "ctb"))
+Authors@R: c(person("Fernando", "Alarid-Escudero", email = "falarid@stanford.edu", role = c("aut", "cre")))
 Description: A pilot package to try, test, improve and continuously develop
     functions to create and analyze decision-analytic models (DAM).
 Depends:
